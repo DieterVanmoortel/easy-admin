@@ -1,0 +1,44 @@
+div.tabs.easy_admin{
+  right:0;
+  width:0px;
+  padding-left:25px;
+  height:80px;
+  z-index:20;
+}
+div.tabs.easy_admin.nav.collapsible{
+  z-index:20;
+}
+div.tabs.easy_admin.nav{
+  top:325px;
+  background:url('../img/navigation.png') no-repeat 5px 10px #000; 
+}
+div.tabs.easy_admin.tools{
+  top:230px;
+  background:url('../img/gear.png') no-repeat 5px 10px #000;  
+}
+div.tabs.easy_admin.tools:hover, div.tabs.easy_admin.tools.collapsible{
+  background:url('../img/gearhover.png') no-repeat 5px 10px #000;  
+}
+div.tabs.easy_admin.nav:hover, div.tabs.easy_admin.nav.collapsible{
+  background:url('../img/navigationhover.png') no-repeat 5px 10px #000;  
+}
+.easy_admin a:hover{text-decoration:none;}
+
+div.tabs.collapsible{
+  height:auto;
+  width:200px;
+  box-shadow: 0 2px 8px #222;
+  z-index:30;
+}
+
+
+
+
+/*                Contextual fix                */
+
+.block-easy-admin .contextual-links-trigger{
+  display:block;
+  position:fixed;
+  right:0;
+  top:100px;
+}

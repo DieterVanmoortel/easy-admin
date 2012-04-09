@@ -1,0 +1,155 @@
+<?php
+
+
+/**
+ * TODO's
+ * 
+ * - use sprites for the images
+ * - switch to ajax for backend actions
+ * - smoother jquery
+ * - develop some cool navigation system in jquery
+ * 
+ */
+/*
+ * Implementing hook_init()
+ */
+function easy_admin_init(){
+
+}
+/*
+ * Implementing hook_permission
+ */
+function easy_admin_permission(){
+   return array(
+    'use easy admin' => array(
+      'title' => t('Easy Admin Tools'), 
+      'description' => t('Use the easy admin UI.'),
+    ),
+  );
+}
+
+/** Implementing hook_menu
+ *
+ * @return array 
+ */
+function easy_admin_menu(){
+  $items = array();
+    $items['admin/easy_admin/%'] = array(
+    'page callback' => 'easy_admin_actions',
+    'page arguments' => array(2),
+    'access arguments' => array('use easy admin'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+/*
+ * Implementation of hook_block_info
+ */
+function easy_admin_block_info() {
+  $blocks = array();
+  
+  $blocks['easy_admin'] = array(
+    'info' => t('Easy Admin tabs'), 
+  );
+  
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function easy_admin_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'easy_admin':
+      $block['content'] = easy_admin_block_render();
+      break;
+  }
+  return $block;
+}
+
+
+/*
+ * The content of the easy admin block
+ */
+function easy_admin_block_render(){
+  $output = '';
+  // some default functions
+  $items = easy_admin_default_functions();
+  $navitems = easy_admin_default_navigation();
+  $list = theme('item_list', array('items' => $items));
+  $navlist = theme('item_list', array('items' => $navitems));
+  $output .= '<div class="tabs easy_admin tools"><span class="icon"></span>';
+  $output .= $list;
+  $output .= '</div>';
+  $output .= '<div class="tabs easy_admin nav">';
+  $output .= $navlist;
+  $output .= '</div>';
+  return $output;
+}
+
+
+
+
+function easy_admin_default_functions(){
+  $actions = array();
+  $actions['rebuild_menu'] = array(t('Rebuild Menu'));
+  $actions['flush_caches'] =  array(t('Flush Caches'));
+  $actions['cron'] =  array(t('Run Cron'));
+  $actions['update'] =  array(t('Run Updates'));
+  $actions['dblog'] =  array(t('View Reports'));
+  
+  foreach($actions as $callback => $action) {
+    $items[] = l($action[0], 'admin/easy_admin/'.$callback);
+  }
+  return $items;
+}
+function easy_admin_default_navigation(){
+  $functions = array();
+  $functions['content'] =  array(t('Content'));
+  $functions['config'] =  array(t('Settings'));
+  $functions['structure'] =  array(t('Structure'));
+  $functions['people'] =  array(t('Users'));
+  $functions['appearance'] =  array(t('Themes'));
+  $query = db_select('menu_links', 'm')
+          ->fields('m', array('p2','p3','link_path', 'link_title'))
+          ->condition('p1', 1)
+          ->condition('p4',0)
+          ->execute()
+          ->fetchAll();
+  foreach((array)$query as $result){
+    $menu[$result->p2][] = $result;
+  }
+  dpm($menu);
+          
+  foreach($functions as $callback => $function) {
+    $items[] = l($function[0], 'admin/'.$callback);
+  }
+  return $items;
+}
+
+/**
+ * Frequently used actions
+ * @param type $action 
+ */
+function easy_admin_actions($action){
+  switch($action){
+    case 'rebuild_menu':
+      if(menu_rebuild()){drupal_set_message(t('Menu was reconstructed.'));}
+      break;
+    case 'flush_caches':
+      drupal_flush_all_caches();
+      drupal_set_message(t('All caches flushed.'));
+      break;
+    case 'cron':
+      if(drupal_cron_run()){drupal_set_message(t('Cron run succesfull.'));}
+      break;
+    case 'update':
+      drupal_goto('update.php');
+      break;
+    case 'dblog':
+      drupal_goto('admin/reports/dblog');
+      break;
+  }
+  drupal_goto('<front>');
+}
