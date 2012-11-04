@@ -16,7 +16,11 @@
 function easy_admin_init(){
 
 }
-/*
+
+function easy_admin_preprocess($variables) {
+  dpm($variables);
+}/*
+}
  * Implementing hook_permission
  */
 function easy_admin_permission(){
@@ -75,16 +79,26 @@ function easy_admin_block_view($delta = '') {
 function easy_admin_block_render(){
   $output = '';
   // some default functions
-  $items = easy_admin_default_functions();
+  
+  $tabs = menu_local_tabs();
+  if(is_array($tabs['#primary'])) {
+    $output .= '<div class="tabs easy_admin primary">';
+    $output .= render($tabs);
+    $output .= '</div>';
+  }
+    
   $navitems = easy_admin_default_navigation();
-  $list = theme('item_list', array('items' => $items));
   $navlist = theme('item_list', array('items' => $navitems));
-  $output .= '<div class="tabs easy_admin tools"><span class="icon"></span>';
-  $output .= $list;
-  $output .= '</div>';
   $output .= '<div class="tabs easy_admin nav">';
   $output .= $navlist;
   $output .= '</div>';
+  
+  $default_functions = easy_admin_default_functions();
+  $functions = theme('item_list', array('items' => $default_functions));
+  $output .= '<div class="tabs easy_admin tools"><span class="icon"></span>';
+  $output .= $functions;
+  $output .= '</div>';
+  
   return $output;
 }
 
@@ -104,6 +118,8 @@ function easy_admin_default_functions(){
   }
   return $items;
 }
+
+
 function easy_admin_default_navigation(){
   $functions = array();
   $functions['content'] =  array(t('Content'));
@@ -120,7 +136,6 @@ function easy_admin_default_navigation(){
   foreach((array)$query as $result){
     $menu[$result->p2][] = $result;
   }
-  dpm($menu);
           
   foreach($functions as $callback => $function) {
     $items[] = l($function[0], 'admin/'.$callback);

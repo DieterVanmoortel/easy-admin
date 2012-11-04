@@ -9,6 +9,13 @@
     $('.dev-query').click(function(){
       $('.devel-querylog').toggle();
     })
+    
+    $('.first.level').click(function(e){
+      e.preventDefault();
+      var trigger = $(this).attr('name');
+      $('.subtabs[name='+trigger+']').addClass('fullblown');
+      $('.subtabs[name!='+trigger+']').removeClass('fullblown');
+    })
     }}
 
   function tabexpander_init() {  
