@@ -7,6 +7,38 @@ div.tabs.easy_admin{
   z-index:20;
   border-radius: 6px 0 0 6px;
 }
+
+div.tabs.easy_admin.tabs ul{
+  margin: 2px;
+  padding: 5px;
+}
+div.tabs.easy_admin.tabs ul li a{
+  border:none;
+  background:#555;
+  color:#DDD;
+  height:25px;
+  display:block;
+  line-height:25px;
+  padding-left:10px;
+  margin:0 0 1px 0;
+}
+
+div.tabs.easy_admin.tabs ul li{
+  background-color:#2d2d2d;
+/*  margin-bottom:1px;*/
+}
+div.tabs.easy_admin.tabs ul li a:hover{
+  background:#666;
+}
+div.tabs.easy_admin.tabs ul li a.active{
+  color:#FFFFFF;
+  background:#888;
+  border:none;
+}
+
+div.tabs.easy_admin ul.primary{
+  border: 0;
+}
 div.tabs.easy_admin.nav.collapsible{
   z-index:20;
 }
@@ -33,6 +65,8 @@ div.tabs.easy_admin.nav:hover, div.tabs.easy_admin.nav.collapsible{
 }
 .easy_admin a:hover{text-decoration:none;}
 
+
+
 div.tabs.collapsible{
   height:auto;
   width:200px;
@@ -51,16 +85,6 @@ div.subtabs.fullblown{
 }
 
 
-
-
-
-
-
-
-
-
-
-
 /*                Contextual fix                */
 
 .block-easy-admin .contextual-links-trigger{
@@ -70,50 +94,6 @@ div.subtabs.fullblown{
   top:100px;
 }
 
-/*
-* TABS
-*/
-
-.tabs ul.primary li.active a{
-  background:none;
-  border:none;
-}
-.tabs ul.primary li.active{
-  background:#555;
-}
-
-.tabs ul li a{
-  background:none;
-  border:none;
-  color:#DDD;
-  height:25px;
-  display:block;
-  line-height:25px;
-  padding-left:10px;
-  margin:0;
-}
-
-.tabs ul li a:hover{
-  background:#666;
-}
-
-.tabs ul li a.active{
-  color:#FFFFFF;
-  background:#777;
-  border:none;
-}
-
-.tabs ul.primary ul.links li a{
-  text-align:right;
-  color:#B3B3B3;
-}
-.tabs ul.primary ul.links li{
-  margin-left:10px;
-  background-color:#333;
-}
-.tabs ul.primary ul.links li a:hover{
-  color:#FFFFFF;
-}
 
 /**
  * Breadcrumb

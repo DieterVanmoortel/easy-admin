@@ -11,25 +11,19 @@
  * - add spin.min.js
  * 
  */
-/*
- * Implements hook_preprocess_page
- */
-function easy_admin_preprocess_page($vars) {
-  unset($vars['tabs']); // unset tabs here to add them in our admin block
-}
 
 /*
  * Implementing hook_permission
  */
 function easy_admin_permission(){
    return array(
-    'use easy admin' => array(
+    'use easy admin' => array(    // use the admin tabs
       'title' => t('Use Easy Admin Tools'), 
       'description' => t('Use the easy admin UI.'),
     ),
-    'configure easy admin' => array(
+    'configure easy admin' => array( // confiture the admin tabs
       'title' => t('Configure Easy Admin Tools'), 
-      'description' => t('Chaage settings for the easy admin tabs.'),
+      'description' => t('Change settings for the easy admin tabs.'),
     ),
   );
 }
@@ -39,17 +33,18 @@ function easy_admin_permission(){
  */
 function easy_admin_menu(){
   $items = array();
-    $items['admin/easy_admin/%'] = array(
-    'page callback' => 'easy_admin_actions',
-    'page arguments' => array(2),
-    'access arguments' => array('use easy admin'),
-    'type' => MENU_CALLBACK,
-  );
-    $items['admin/config/easy_admin/'] = array(
+//  $items['admin/easy_admin/%'] = array(
+//    'page callback' => 'easy_admin_actions',
+//    'page arguments' => array(2),
+//    'access arguments' => array('use easy admin'),
+//    'type' => MENU_CALLBACK,
+//  );
+  $items['admin/config/easy_admin/'] = array(
+    'title' => t('Easy Admin tabs'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('easy_admin_settings_form'),
     'access arguments' => array('configure easy admin'),
-    'type' => MENU_CALLBACK,
+    'type' => MENU_NORMAL_ITEM,
   );
   return $items;
 }
@@ -85,13 +80,12 @@ function easy_admin_block_view($delta = '') {
  */
 function easy_admin_block_render(){
   $output = '';
-  // some default functions
-  
-  $tabs = menu_local_tabs();
-  if(is_array($tabs['#primary'])) {
-    $output .= '<div class="tabs easy_admin primary">';
-    $output .= render($tabs);
-    $output .= '</div>';
+  // Primary tabs
+  $primary = menu_primary_local_tasks();
+  if(is_array($primary)) {
+    $output .= '<div class="tabs easy_admin primary"><ul class="tabs primary">';
+    $output .= drupal_render($primary);
+    $output .= '</ul></div>';
   }
     
   $navitems = easy_admin_default_navigation();
@@ -114,10 +108,9 @@ function easy_admin_block_render(){
 
 function easy_admin_default_functions(){
   $actions = array();
-  $actions['rebuild_menu'] = array(t('Rebuild Menu'));
   $actions['flush_caches'] =  array(t('Flush Caches'));
+  $actions['rebuild_menu'] = array(t('Rebuild Menu'));
   $actions['cron'] =  array(t('Run Cron'));
-  $actions['update'] =  array(t('Run Updates'));
   $actions['dblog'] =  array(t('View Reports'));
   
   foreach($actions as $callback => $action) {
@@ -130,19 +123,10 @@ function easy_admin_default_functions(){
 function easy_admin_default_navigation(){
   $functions = array();
   $functions['content'] =  array(t('Content'));
-  $functions['config'] =  array(t('Settings'));
+  $functions['config'] =  array(t('Configuration'));
   $functions['structure'] =  array(t('Structure'));
   $functions['people'] =  array(t('Users'));
-  $functions['appearance'] =  array(t('Themes'));
-  $query = db_select('menu_links', 'm')
-          ->fields('m', array('p2','p3','link_path', 'link_title'))
-          ->condition('p1', 1)
-          ->condition('p4',0)
-          ->execute()
-          ->fetchAll();
-  foreach((array)$query as $result){
-    $menu[$result->p2][] = $result;
-  }
+//  $functions['appearance'] =  array(t('Themes'));
           
   foreach($functions as $callback => $function) {
     $items[] = l($function[0], 'admin/'.$callback);
@@ -174,4 +158,15 @@ function easy_admin_actions($action){
       break;
   }
   drupal_goto('<front>');
+}
+
+
+function easy_admin_settings_form(&$form, &$form_state) {
+  $form = array();
+  $form['actions'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Show actions'),
+      '#options' => array(1,2,3,),
+  );
+  return $form;
 }
