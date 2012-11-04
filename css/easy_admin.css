@@ -18,8 +18,8 @@ div.tabs.easy_admin.tabs ul li a{
   color:#DDD;
   height:25px;
   display:block;
-  line-height:25px;
-  padding-left:10px;
+  line-height:27px;
+  padding-left:12px;
   margin:0 0 1px 0;
 }
 
@@ -29,6 +29,7 @@ div.tabs.easy_admin.tabs ul li{
 }
 div.tabs.easy_admin.tabs ul li a:hover{
   background:#666;
+  text-decoration:none;
 }
 div.tabs.easy_admin.tabs ul li a.active{
   color:#FFFFFF;
@@ -63,10 +64,6 @@ div.tabs.easy_admin.tools:hover, div.tabs.easy_admin.tools.collapsible{
 div.tabs.easy_admin.nav:hover, div.tabs.easy_admin.nav.collapsible{
   background:url('../img/navigationhover.png') no-repeat 5px 10px #000;  
 }
-.easy_admin a:hover{text-decoration:none;}
-
-
-
 div.tabs.collapsible{
   height:auto;
   width:200px;
@@ -74,7 +71,8 @@ div.tabs.collapsible{
   z-index:30;
 }
 
-div.subtabs{
+
+div.subtabs{ /* are we gonna use these?? */
   position:fixed;
   right:0px;
   width:10px;
@@ -83,8 +81,6 @@ div.subtabs{
 div.subtabs.fullblown{
   width:200px;
 }
-
-
 /*                Contextual fix                */
 
 .block-easy-admin .contextual-links-trigger{

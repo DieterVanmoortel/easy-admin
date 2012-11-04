@@ -33,12 +33,12 @@ function easy_admin_permission(){
  */
 function easy_admin_menu(){
   $items = array();
-//  $items['admin/easy_admin/%'] = array(
-//    'page callback' => 'easy_admin_actions',
-//    'page arguments' => array(2),
-//    'access arguments' => array('use easy admin'),
-//    'type' => MENU_CALLBACK,
-//  );
+  $items['admin/easy_admin/%'] = array(
+    'page callback' => 'easy_admin_actions',
+    'page arguments' => array(2),
+    'access arguments' => array('use easy admin'),
+    'type' => MENU_CALLBACK,
+  );
   $items['admin/config/easy_admin/'] = array(
     'title' => t('Easy Admin tabs'),
     'page callback' => 'drupal_get_form',
@@ -55,7 +55,12 @@ function easy_admin_block_info() {
   $blocks = array();
   
   $blocks['easy_admin'] = array(
-    'info' => t('Easy Admin tabs'), 
+    'info' => t('Easy Admin tabs'),
+    'region' => 'content',
+    'status' => 1,
+    'propertiers' => array(
+        'administrative' => FALSE,
+    ),
   );
   
   return $blocks;
@@ -79,15 +84,29 @@ function easy_admin_block_view($delta = '') {
  * The content of the easy admin block
  */
 function easy_admin_block_render(){
+  // don't build this block on admin pages
+  $item = menu_get_item();
+  if(path_is_admin($item['path'])){
+    return '';
+  }
   $output = '';
+  
   // Primary tabs
   $primary = menu_primary_local_tasks();
-  if(is_array($primary)) {
+  // unset the view tab ( which is pretty useless in our case
+  foreach($primary as $key => $value){
+    if(isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view'){
+      unset($primary[$key]);
+    }
+  }
+  $secondary = menu_secondary_local_tasks();
+  if(is_array($primary) || is_array($secondary)) {
     $output .= '<div class="tabs easy_admin primary"><ul class="tabs primary">';
     $output .= drupal_render($primary);
+    $output .= drupal_render($secondary);
     $output .= '</ul></div>';
   }
-    
+  // possibility to add secondary items? 
   $navitems = easy_admin_default_navigation();
   $navlist = theme('item_list', array('items' => $navitems));
   $output .= '<div class="tabs easy_admin nav">';
