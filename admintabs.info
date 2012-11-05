@@ -1,0 +1,12 @@
+name = Admin Tabs
+description = Quick Acces to Most Used Functions
+version = 7.x-dev
+
+package = Administration
+core = 7.x
+php = 5.2.4
+configure = admin/config/admintabs
+dependencies[] = variable
+
+scripts[] = js/admintabs.js
+stylesheets[all][] = css/admintabs.css

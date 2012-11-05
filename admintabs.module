@@ -1,0 +1,199 @@
+<?php
+
+
+/**
+ * TODO's
+ * 
+ * - use sprites for the images
+ * - switch to ajax for backend actions
+ * - smoother jquery
+ * - develop some cool navigation system in jquery
+ * - add spin.min.js
+ * 
+ */
+
+/*
+ * Implementing hook_permission
+ */
+function admintabs_permission(){
+   return array(
+    'use admintabs' => array(    // use the admin tabs
+      'title' => t('Use Admin Tabs'),
+      'description' => t('Use Admin Tabs in the frontend'),
+    ),
+    'configure admintabs' => array( // confiture the admin tabs
+      'title' => t('Configure Admin Tabs'),
+      'description' => t('Change settings for Admin tabs.'),
+    ),
+  );
+}
+
+/*
+ *  Implementing hook_menu
+ */
+function admintabs_menu(){
+  $items = array();
+  $items['admin/admintabs/%'] = array(
+    'page callback' => 'admintabs_actions',
+    'page arguments' => array(2),
+    'access arguments' => array('use admintabs'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/admintabs/'] = array(
+    'title' => t('Admin tabs'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admintabs_settings_form'),
+    'access arguments' => array('configure admintabs'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+/*
+ * Implementation of hook_block_info
+ */
+function admintabs_block_info() {
+  $blocks = array();
+  
+  $blocks['admintabs'] = array(
+    'info' => t('Admin Tabs'),
+    'region' => 'content',
+    'status' => 1,
+    'propertiers' => array(
+        'administrative' => FALSE,
+    ),
+  );
+  
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function admintabs_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'admintabs':
+      $block['content'] = admintabs_block_render();
+      break;
+  }
+  return $block;
+}
+
+
+/*
+ * The content of the easy admin block
+ */
+function admintabs_block_render(){
+  // don't build this block on admin pages
+  $item = menu_get_item();
+  if(path_is_admin($item['path'])){
+    return '';
+  }
+  $output = '';
+  
+  // Primary tabs
+  $primary = menu_primary_local_tasks();
+  // unset the view tab ( which is pretty useless in our case
+  foreach($primary as $key => $value){
+    if(isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view'){
+      unset($primary[$key]);
+    }
+  }
+  $secondary = menu_secondary_local_tasks();
+  if(is_array($primary) || is_array($secondary)) {
+    $output .= '<div class="tabs admintabs primary"><ul class="tabs primary">';
+    $output .= drupal_render($primary);
+    $output .= drupal_render($secondary);
+    $output .= '</ul></div>';
+  }
+    // translation option
+  $output .= '<div class="tabs lazy_admin translate"><span id="translate_link" class="icon"></span>';
+  $translationlink = l(t('Translate'), 'translate', array('attributes' => array('process' => 'backend')));'<span id="translate_options"></span>';
+  $output .= theme('item_list', array('items' => array($translationlink)));
+
+  $output .= '</div>';
+
+
+  // possibility to add secondary items? 
+  $navitems = admintabs_default_navigation();
+  $navlist = theme('item_list', array('items' => $navitems));
+  $output .= '<div class="tabs admintabs nav">';
+  $output .= $navlist;
+  $output .= '</div>';
+  
+  $default_functions = admintabs_default_functions();
+  $functions = theme('item_list', array('items' => $default_functions));
+  $output .= '<div class="tabs admintabs tools"><span class="icon"></span>';
+  $output .= $functions;
+  $output .= '</div>';
+  
+  return $output;
+}
+
+
+
+
+function admintabs_default_functions(){
+  $actions = array();
+  $actions['flush_caches'] =  array(t('Flush Caches'));
+  $actions['rebuild_menu'] = array(t('Rebuild Menu'));
+  $actions['cron'] =  array(t('Run Cron'));
+  $actions['dblog'] =  array(t('View Reports'));
+  
+  foreach($actions as $callback => $action) {
+    $items[] = l($action[0], 'admin/admintabs/'.$callback);
+  }
+  return $items;
+}
+
+
+function admintabs_default_navigation(){
+  $functions = array();
+  $functions['content'] =  array(t('Content'));
+  $functions['config'] =  array(t('Configuration'));
+  $functions['structure'] =  array(t('Structure'));
+  $functions['people'] =  array(t('Users'));
+//  $functions['appearance'] =  array(t('Themes'));
+          
+  foreach($functions as $callback => $function) {
+    $items[] = l($function[0], 'admin/'.$callback);
+  }
+  return $items;
+}
+
+/**
+ * Frequently used actions
+ * @param type $action 
+ */
+function admintabs_actions($action){
+  switch($action){
+    case 'rebuild_menu':
+      if(menu_rebuild()){drupal_set_message(t('Menu was reconstructed.'));}
+      break;
+    case 'flush_caches':
+      drupal_flush_all_caches();
+      drupal_set_message(t('All caches flushed.'));
+      break;
+    case 'cron':
+      if(drupal_cron_run()){drupal_set_message(t('Cron run succesfull.'));}
+      break;
+    case 'update':
+      drupal_goto('update.php');
+      break;
+    case 'dblog':
+      drupal_goto('admin/reports/dblog');
+      break;
+  }
+  drupal_goto('<front>');
+}
+
+
+function admintabs_settings_form(&$form, &$form_state) {
+  $form = array();
+  $form['actions'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Show actions'),
+      '#options' => array(1,2,3,),
+  );
+  return $form;
+}

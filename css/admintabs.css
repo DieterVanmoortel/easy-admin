@@ -1,0 +1,159 @@
+div.tabs.admintabs{
+  position:fixed;
+  right:0;
+  width:0px;
+  padding-left:25px;
+  height:80px;
+  z-index:20;
+  border-radius: 6px 0 0 6px;
+}
+
+div.tabs.admintabs.tabs ul{
+  margin: 2px;
+  padding: 5px;
+}
+div.tabs.admintabs.tabs ul li a{
+  border:none;
+  background:#555;
+  color:#DDD;
+  height:25px;
+  display:block;
+  line-height:27px;
+  padding-left:12px;
+  margin:0 0 1px 0;
+}
+
+div.tabs.admintabs.tabs ul li{
+  background-color:#2d2d2d;
+/*  margin-bottom:1px;*/
+}
+div.tabs.admintabs.tabs ul li a:hover{
+  background:#666;
+  text-decoration:none;
+}
+div.tabs.admintabs.tabs ul li a.active{
+  color:#FFFFFF;
+  background:#888;
+  border:none;
+}
+
+div.tabs.admintabs ul.primary{
+  border: 0;
+}
+div.tabs.admintabs.nav.collapsible{
+  z-index:20;
+}
+div.tabs.admintabs.primary{
+  top:145px;
+  background:url('../img/tool.png') no-repeat 5px 10px #000; 
+}
+div.tabs.admintabs.primary:hover{
+  background:url('../img/hovertool.png') no-repeat 5px 10px #000; 
+}
+div.tabs.admintabs.nav{
+  top:230px;
+  background:url('../img/navigation.png') no-repeat 5px 10px #000; 
+}
+div.tabs.admintabs.tools{
+  top:315px;
+  background:url('../img/gear.png') no-repeat 5px 10px #000;  
+}
+div.tabs.admintabs.tools:hover, div.tabs.admintabs.tools.collapsible{
+  background:url('../img/gearhover.png') no-repeat 5px 10px #000;  
+}
+div.tabs.admintabs.nav:hover, div.tabs.admintabs.nav.collapsible{
+  background:url('../img/navigationhover.png') no-repeat 5px 10px #000;  
+}
+div.tabs.collapsible{
+  height:auto;
+  width:200px;
+  box-shadow: 0 2px 8px #222;
+  z-index:30;
+}
+
+
+div.subtabs{ /* are we gonna use these?? */
+  position:fixed;
+  right:0px;
+  width:10px;
+  top:440px;
+}
+div.subtabs.fullblown{
+  width:200px;
+}
+/*                Contextual fix                */
+
+.block-easy-admin .contextual-links-trigger{
+  display:block;
+  position:fixed;
+  right:0;
+  top:100px;
+}
+
+
+/**
+ * Breadcrumb
+ */
+#breadcrumb{
+  background:url('../images/return.png') no-repeat 5px 7px #000;
+  padding-left:25px;
+  width: 0px;
+  height:30px;
+  position:fixed;
+  right:0;
+  top: 105px;
+  border-radius: 6px 0 0 6px;
+  z-index:20;
+}
+#breadcrumb:hover, #breadcrumb.collapsible {
+    background:url('../images/returnhover.png') no-repeat 5px 7px #000;
+}
+#breadcrumb.collapsible {
+  width:200px;
+}
+
+#breadcrumb .breadcrumb{
+  padding:5px;
+}
+
+#breadcrumb a{
+  color:#818181;
+}
+
+#breadcrumb ul{
+  overflow:hidden;
+}
+
+#breadcrumb ul li{
+  float:left;
+  margin-right:5px;
+  list-style:none outside none;
+}
+
+#breadcrumb ul li a{
+  color:#818181;
+}
+
+
+/* DEVEL QUERY LOGS */
+div.dev-query{
+  background:url('../images/query.png') no-repeat 3px 7px #000;
+  padding-left:25px;
+  width: 245px;
+  height:30px;
+  position:fixed;
+  right:-280px;
+  bottom: 40px;
+  border-radius: 6px 0 0 6px;
+  border:none;
+  z-index:20;
+  padding:5px 30px;
+  color:white;
+}
+div.dev-query.collapsible{
+  right:0;
+}
+div.dev-query:hover, div.dev-query.collapsible{
+    background:url('../images/queryhover.png') no-repeat 3px 7px #000;
+}
+div.devel-querylog  {display:none;}
