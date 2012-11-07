@@ -8,6 +8,8 @@
  * - switch to ajax for backend actions
  * - smoother jquery
  * - develop some cool navigation system in jquery
+ * - add caching
+ * - finetune spinner action
  * 
  */
 
@@ -177,33 +179,6 @@ function admintabs_default_navigation(){
   }
   return $items;
 }
-
-/**
- * Frequently used actions
- * @param type $action 
- */
-function admintabs_actions($action){
-  switch($action){
-    case 'rebuild_menu':
-      if(menu_rebuild()){drupal_set_message(t('Menu was reconstructed.'));}
-      break;
-    case 'flush_caches':
-      drupal_flush_all_caches();
-      drupal_set_message(t('All caches flushed.'));
-      break;
-    case 'cron':
-      if(drupal_cron_run()){drupal_set_message(t('Cron run succesfull.'));}
-      break;
-    case 'update':
-      drupal_goto('update.php');
-      break;
-    case 'dblog':
-      drupal_goto('admin/reports/dblog');
-      break;
-  }
-  drupal_goto('<front>');
-}
-
 
 function admintabs_settings_form(&$form, &$form_state) {
   $form = array();

@@ -5,6 +5,16 @@
  */
 function lazy_admin_default_functions(){
 
+  $actions['machine_name'] = array(
+    'link' => t('blah'),
+    'callback' => 'do_stuff',
+    'attributes' => array(
+      'process' => 'backend',
+      'message' => 'Doing something',
+    ),
+  );
+
+
   // add a backend msg?
   $actions = array();
   $actions[] = array(t('Rebuild Menu'), TRUE);
