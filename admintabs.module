@@ -8,9 +8,20 @@
  * - switch to ajax for backend actions
  * - smoother jquery
  * - develop some cool navigation system in jquery
- * - add spin.min.js
  * 
  */
+
+/**
+ * Implements hook_init
+ */
+function admintabs_init(){
+  global $language;
+  drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
+
+  if(user_access('translate interface')){
+    drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
+  }
+}
 
 /*
  * Implementing hook_permission
@@ -93,21 +104,23 @@ function admintabs_block_render(){
   
   // Primary tabs
   $primary = menu_primary_local_tasks();
-  // unset the view tab ( which is pretty useless in our case
-  foreach($primary as $key => $value){
-    if(isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view'){
-      unset($primary[$key]);
-    }
-  }
+
   $secondary = menu_secondary_local_tasks();
   if(is_array($primary) || is_array($secondary)) {
+    // unset the view tab ( which is pretty useless in our case
+    foreach((array)$primary as $key => $value){
+      if(isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view'){
+        unset($primary[$key]);
+      }
+    }
+
     $output .= '<div class="tabs admintabs primary"><ul class="tabs primary">';
     $output .= drupal_render($primary);
     $output .= drupal_render($secondary);
     $output .= '</ul></div>';
   }
     // translation option
-  $output .= '<div class="tabs lazy_admin translate"><span id="translate_link" class="icon"></span>';
+  $output .= '<div class="tabs admintabs translate"><span id="translate_link" class="icon"></span>';
   $translationlink = l(t('Translate'), 'translate', array('attributes' => array('process' => 'backend')));'<span id="translate_options"></span>';
   $output .= theme('item_list', array('items' => array($translationlink)));
 
@@ -126,7 +139,9 @@ function admintabs_block_render(){
   $output .= '<div class="tabs admintabs tools"><span class="icon"></span>';
   $output .= $functions;
   $output .= '</div>';
-  
+
+  // spinner
+  $output .= '<div id="adminspinner" class="tabs admintabs spinner"><span id="spinner-msg"></span></div>';
   return $output;
 }
 
@@ -135,13 +150,15 @@ function admintabs_block_render(){
 
 function admintabs_default_functions(){
   $actions = array();
-  $actions['flush_caches'] =  array(t('Flush Caches'));
-  $actions['rebuild_menu'] = array(t('Rebuild Menu'));
-  $actions['cron'] =  array(t('Run Cron'));
-  $actions['dblog'] =  array(t('View Reports'));
-  
+  $actions['rebuild_menu'] = array(t('Rebuild Menu'), TRUE);
+  $actions['flush_caches'] =  array(t('Flush Caches'), TRUE);
+  $actions['cron'] =  array(t('Run Cron'), TRUE);
+  $actions['update.php'] =  array(t('Run Updates'), FALSE);
+  $actions['admin/reports/dblog'] =  array(t('View Reports'), FALSE);
+
   foreach($actions as $callback => $action) {
-    $items[] = l($action[0], 'admin/admintabs/'.$callback);
+    $process = $action[1] ? 'backend' : 'frontend';
+    $items[] = l($action[0], $callback, array('attributes' => array('process' => $process)));
   }
   return $items;
 }

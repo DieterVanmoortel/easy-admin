@@ -50,9 +50,20 @@ div.tabs.admintabs.primary{
 div.tabs.admintabs.primary:hover{
   background:url('../img/hovertool.png') no-repeat 5px 10px #000; 
 }
+div.tabs.admintabs.translate{
+  top:100px;
+  height:40px;
+  background:url('../img/translate.png') no-repeat 5px 10px #000;
+}
+div.tabs.admintabs.translate:hover{
+  background:url('../img/translatehover.png') no-repeat 5px 10px #000;
+}
 div.tabs.admintabs.nav{
   top:230px;
   background:url('../img/navigation.png') no-repeat 5px 10px #000; 
+}
+div.tabs.admintabs.nav:hover, div.tabs.admintabs.nav.collapsible{
+  background:url('../img/navigationhover.png') no-repeat 5px 10px #000;
 }
 div.tabs.admintabs.tools{
   top:315px;
@@ -61,9 +72,22 @@ div.tabs.admintabs.tools{
 div.tabs.admintabs.tools:hover, div.tabs.admintabs.tools.collapsible{
   background:url('../img/gearhover.png') no-repeat 5px 10px #000;  
 }
-div.tabs.admintabs.nav:hover, div.tabs.admintabs.nav.collapsible{
-  background:url('../img/navigationhover.png') no-repeat 5px 10px #000;  
+div.tabs.admintabs.spinner{
+  top: 50%;
+  left:50%;
+  width:150px;
+  height:150px;
+  border-radius: 6px;
+  background-color:#2d2d2d;
+  box-shadow: 0 2px 8px #222;
 }
+#spinner-msg{
+  color:#CDCDCD;
+  position:absolute;
+  bottom:12px;
+  left:75px;
+}
+
 div.tabs.collapsible{
   height:auto;
   width:200px;
@@ -83,7 +107,7 @@ div.subtabs.fullblown{
 }
 /*                Contextual fix                */
 
-.block-easy-admin .contextual-links-trigger{
+.block-admintabs .contextual-links-trigger{
   display:block;
   position:fixed;
   right:0;

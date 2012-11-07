@@ -9,4 +9,5 @@ configure = admin/config/admintabs
 dependencies[] = variable
 
 scripts[] = js/admintabs.js
+scripts[] = js/spin.min.js
 stylesheets[all][] = css/admintabs.css

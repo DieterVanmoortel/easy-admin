@@ -4,16 +4,19 @@
  * $actions[] = array('title', 'backend process')
  */
 function lazy_admin_default_functions(){
+
+  // add a backend msg?
   $actions = array();
-  $actions['rebuild_menu'] = array(t('Rebuild Menu'), TRUE);
+  $actions[] = array(t('Rebuild Menu'), TRUE);
   $actions['flush_caches'] =  array(t('Flush Caches'), TRUE);
+  $actions['rebuild_css'] =  array(t('Rebuild CSS & JS'), TRUE);
   $actions['cron'] =  array(t('Run Cron'), TRUE);
   $actions['update.php'] =  array(t('Run Updates'), FALSE);
   $actions['admin/reports/dblog'] =  array(t('View Reports'), FALSE);
 
   foreach($actions as $callback => $action) {
     $process = $action[1] ? 'backend' : 'frontend';
-    $items[] = l($action[0], $callback, array('attributes' => array('process' => $process)));
+    $items[] = l($action[0], $callback, array('attributes' => array('process' => $action[''])));
   }
   return $items;
 }
