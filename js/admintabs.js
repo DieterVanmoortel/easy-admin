@@ -1,7 +1,52 @@
 (function($){
   Drupal.behaviors.adminTabs = {
     attach: function(context) { 
-          var opts = {
+      spinner_init();
+    
+      $('.tabs, #breadcrumb, .dev-query').not('.spinner').addClass('grow-tabs');
+      tabexpander_init();
+
+      $('.parent-tab').bind('click', function(event){
+        event.preventDefault();
+        var pid = $(this).attr('mlid');
+
+
+        $('.child-tab[parent!=' + pid + ']').hide();
+        $('.child-tab[parent=' + pid + ']').show();
+      })
+
+      $('.admintabs [process=backend] a').click(function(e){
+        e.preventDefault();
+        $('#adminspinner').toggle();
+        $('#spinner-msg').html($(this).attr('href'));
+        $.ajax({
+          url: Drupal.settings.basePath + Drupal.settings.adminTabs.modulePath + '/includes/admintabs.callback.php',
+          dataType: "json",
+          type: "POST",
+          data: {
+            value: $(this).attr('href')
+          },
+          complete: function(data){
+            setTimeout(function(){$('#adminspinner').toggle();}, 1000);
+          }
+        });
+      });
+    }
+  }
+
+  function tabexpander_init() {  
+    $('.grow-tabs').bind('click', function(){
+      $('ul.child-tab').hide();
+      $(this).toggleClass('collapsible');
+      $('.admintabs').not($(this)).not('.spinner').fadeToggle('fast');
+    });
+    $('.grow-tabs').children().bind('click', function(event){
+      event.stopPropagation()
+    });
+  }
+  
+  function spinner_init() {
+    var opts = {
       lines: 11, // The number of lines to draw
       length: 0, // The length of each line
       width: 6, // The line thickness
@@ -20,42 +65,5 @@
     };
     target = document.getElementById('adminspinner');
     var spinner = new Spinner(opts).spin(target);
-    
-    $('.tabs, #breadcrumb, .dev-query').not('.spinner').addClass('grow-tabs');
-    tabexpander_init();
-    
-    $('.dev-query').click(function(){
-      $('.devel-querylog').toggle();
-    })
-    
-    $('.first.level').click(function(e){
-      e.preventDefault();
-      var trigger = $(this).attr('name');
-      $('.subtabs[name='+trigger+']').addClass('fullblown');
-      $('.subtabs[name!='+trigger+']').removeClass('fullblown');
-    });
-
-    $('.admintabs [process=backend]').click(function(e){
-      e.preventDefault();
-      $('#adminspinner').toggle();
-      $('#spinner-msg').html($(this).attr('href'));
-      $.ajax({
-        url: Drupal.settings.basePath + Drupal.settings.adminTabs.modulePath + '/includes/admintabs.callback.php',
-        dataType: "json",
-        type: "POST",
-        data: {
-          value: $(this).attr('href')
-        }
-      });
-    });
-    }}
-
-  function tabexpander_init() {  
-  $('.grow-tabs').click(function(){
-    $(this).toggleClass('collapsible');
-    $('.admintabs').not($(this)).not('.spinner').fadeToggle('fast');
-  });
-  
-  
   }
 })(jQuery);

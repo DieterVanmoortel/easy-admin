@@ -2,8 +2,8 @@ div.tabs.admintabs{
   position:fixed;
   right:0;
   width:0px;
-  padding-left:25px;
-  height:80px;
+  padding-left:40px;
+  height:100px;
   z-index:20;
   border-radius: 6px 0 0 6px;
 }
@@ -21,10 +21,12 @@ div.tabs.admintabs.tabs ul li a{
   line-height:27px;
   padding-left:12px;
   margin:0 0 1px 0;
+
 }
 
 div.tabs.admintabs.tabs ul li{
   background-color:#2d2d2d;
+  list-style-type: none;
 /*  margin-bottom:1px;*/
 }
 div.tabs.admintabs.tabs ul li a:hover{
@@ -43,15 +45,21 @@ div.tabs.admintabs ul.primary{
 div.tabs.admintabs.nav.collapsible{
   z-index:20;
 }
+div.tabs.admintabs.collapsible:hover{
+  padding-left:40px;
+}
+div.tabs.admintabs:hover{
+  padding-left:50px;
+}
 div.tabs.admintabs.primary{
-  top:145px;
+  top:100px;
   background:url('../img/tool.png') no-repeat 5px 10px #000; 
 }
 div.tabs.admintabs.primary:hover{
   background:url('../img/hovertool.png') no-repeat 5px 10px #000; 
 }
 div.tabs.admintabs.translate{
-  top:100px;
+  top:205px;
   height:40px;
   background:url('../img/translate.png') no-repeat 5px 10px #000;
 }
@@ -59,19 +67,24 @@ div.tabs.admintabs.translate:hover{
   background:url('../img/translatehover.png') no-repeat 5px 10px #000;
 }
 div.tabs.admintabs.nav{
-  top:230px;
-  background:url('../img/navigation.png') no-repeat 5px 10px #000; 
+  top:250px;
+  background:url('../img/navigation.png') no-repeat 5px 10px #000;
 }
 div.tabs.admintabs.nav:hover, div.tabs.admintabs.nav.collapsible{
   background:url('../img/navigationhover.png') no-repeat 5px 10px #000;
 }
 div.tabs.admintabs.tools{
-  top:315px;
-  background:url('../img/gear.png') no-repeat 5px 10px #000;  
+  top:355px;
+  background:url('../img/gear.png') no-repeat 5px 10px #000;
 }
 div.tabs.admintabs.tools:hover, div.tabs.admintabs.tools.collapsible{
-  background:url('../img/gearhover.png') no-repeat 5px 10px #000;  
+  background:url('../img/gearhover.png') no-repeat 5px 10px #000;
 }
+
+div.tabs.admintabs ul.child-tab{
+  display:none;
+}
+
 div.tabs.admintabs.spinner{
   top: 50%;
   left:50%;
@@ -80,6 +93,7 @@ div.tabs.admintabs.spinner{
   border-radius: 6px;
   background-color:#2d2d2d;
   box-shadow: 0 2px 8px #222;
+  display:none;
 }
 #spinner-msg{
   color:#CDCDCD;
