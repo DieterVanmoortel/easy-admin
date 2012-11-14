@@ -18,10 +18,13 @@
  */
 function admintabs_init(){
   global $language;
-  drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
+  $item = menu_get_item();
+  if(!path_is_admin($item['path']) && user_access('use admintabs')){
 
-  if(user_access('translate interface')){
-    drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
+    drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
+    if(user_access('translate interface')){
+      drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
+    }
   }
 }
 
@@ -46,17 +49,12 @@ function admintabs_permission(){
  */
 function admintabs_menu(){
   $items = array();
-  $items['admin/admintabs/%'] = array(
-    'page callback' => 'admintabs_actions',
-    'page arguments' => array(2),
-    'access arguments' => array('use admintabs'),
-    'type' => MENU_CALLBACK,
-  );
   $items['admin/config/admintabs/'] = array(
     'title' => t('Admin tabs'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('admintabs_settings_form'),
     'access arguments' => array('configure admintabs'),
+    'file' => 'includes/admintabs.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
   return $items;
@@ -91,22 +89,42 @@ function admintabs_block_view($delta = '') {
   }
   return $block;
 }
+/**
+ * Implements hook_theme().
+ */
+function admintabs_theme($existing, $type, $theme, $path) {
+  return array(
+    'parent_tab' => array(
+      'variables' => array(),
+      'path' => drupal_get_path('module', 'admintabs') . '/theme',
+      'file' => 'admintabs.theme.inc',
+    ),
+    'child_tab' => array(
+      'variables' => array(),
+      'path' => drupal_get_path('module', 'admintabs') . '/theme',
+      'file' => 'admintabs.theme.inc',
+    ),
+  );
+}
+
 
 
 /*
  * The content of the easy admin block
  */
-function admintabs_block_render(){
-  // don't build this block on admin pages
+function admintabs_block_render() {
+  module_load_include('inc', 'admintabs', 'includes/admintabs.helpers');
+
+  // don't even bother building this this block on admin pages
+  // maybe make a setting out of this?
   $item = menu_get_item();
   if(path_is_admin($item['path'])){
     return '';
   }
   $output = '';
   
-  // Primary tabs
+  // Primary & secondary actionstabs
   $primary = menu_primary_local_tasks();
-
   $secondary = menu_secondary_local_tasks();
   if(is_array($primary) || is_array($secondary)) {
     // unset the view tab ( which is pretty useless in our case
@@ -129,11 +147,9 @@ function admintabs_block_render(){
   $output .= '</div>';
 
 
-  // possibility to add secondary items? 
   $navitems = admintabs_default_navigation();
-  $navlist = theme('item_list', array('items' => $navitems));
   $output .= '<div class="tabs admintabs nav">';
-  $output .= $navlist;
+  $output .= implode('', $navitems);
   $output .= '</div>';
   
   $default_functions = admintabs_default_functions();
@@ -145,47 +161,4 @@ function admintabs_block_render(){
   // spinner
   $output .= '<div id="adminspinner" class="tabs admintabs spinner"><span id="spinner-msg"></span></div>';
   return $output;
-}
-
-
-
-
-function admintabs_default_functions(){
-  $actions = array();
-  $actions['rebuild_menu'] = array(t('Rebuild Menu'), TRUE);
-  $actions['flush_caches'] =  array(t('Flush Caches'), TRUE);
-  $actions['cron'] =  array(t('Run Cron'), TRUE);
-  $actions['update.php'] =  array(t('Run Updates'), FALSE);
-  $actions['admin/reports/dblog'] =  array(t('View Reports'), FALSE);
-
-  foreach($actions as $callback => $action) {
-    $process = $action[1] ? 'backend' : 'frontend';
-    $items[] = l($action[0], $callback, array('attributes' => array('process' => $process)));
-  }
-  return $items;
-}
-
-
-function admintabs_default_navigation(){
-  $functions = array();
-  $functions['content'] =  array(t('Content'));
-  $functions['config'] =  array(t('Configuration'));
-  $functions['structure'] =  array(t('Structure'));
-  $functions['people'] =  array(t('Users'));
-//  $functions['appearance'] =  array(t('Themes'));
-          
-  foreach($functions as $callback => $function) {
-    $items[] = l($function[0], 'admin/'.$callback);
-  }
-  return $items;
-}
-
-function admintabs_settings_form(&$form, &$form_state) {
-  $form = array();
-  $form['actions'] = array(
-      '#type' => 'checkboxes',
-      '#title' => t('Show actions'),
-      '#options' => array(1,2,3,),
-  );
-  return $form;
 }
