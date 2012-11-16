@@ -89,6 +89,17 @@ div.tabs.admintabs ul.child-tab{
   display:none;
 }
 
+div.tabs.admintabs.spinner{
+  top: 50%;
+  left:50%;
+  width:150px;
+  height:150px;
+  border-radius: 6px;
+  background-color:#2d2d2d;
+  box-shadow: 0 2px 8px #222;
+  display:none;
+}
+
 div.tabs.admintabs .spinwrapper{
   background-color:#000;
   height:100px;

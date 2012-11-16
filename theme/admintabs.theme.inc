@@ -1,5 +1,4 @@
 <?php
-
 function theme_parent_tab($vars) {
   $title = $vars['link_title'];
   return '<a class="parent-tab" mlid=' . $vars['mlid'] . '>' . $title . '</a>';
