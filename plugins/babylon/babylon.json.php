@@ -1,11 +1,5 @@
 <?php
 
-
-// need to integrate this in the lazy_admin.callback.php
-
-
-
-
 chdir($_SERVER['DOCUMENT_ROOT']);
 define('DRUPAL_ROOT', getcwd());
 
@@ -22,6 +16,7 @@ $lang = $_POST['lang'];
 
 $results = babylon_translate_seek($value, $lang);
 $output = theme_results($results);
+
 drupal_json_output($output);
 
 
@@ -30,7 +25,7 @@ drupal_json_output($output);
 /*
 * Pimped version of _locale_translate_seek
  */
-function babylon_translate_seek($string, $lang){
+function babylon_translate_seek($string = '', $lang = 'en'){
   $output = '';
   $query['string'] = $string;
   $query['language'] = $lang;
@@ -50,7 +45,7 @@ function babylon_translate_seek($string, $lang){
 
   $limit_language = NULL;
   if ($query['language'] != 'en' && $query['language'] != 'all') {
-    $sql_query->condition('language', $query['language']);
+//    $sql_query->condition('language', $query['language']);
     $limit_language = $query['language'];
   }
 
@@ -60,18 +55,24 @@ function babylon_translate_seek($string, $lang){
   foreach((array)$locales as $locale) {
     $strings[$locale->lid] = $locale->source;
   }
+
   return $strings;
 }
 
 function theme_results($results){
-  // as we don't want to fully bootstrap, we build html ourselves
-  foreach($results as $lid => $string){
-    $items[] = '<a href="/admin/config/regional/translate/edit/'. $lid .'">' . substr($string, 0,100) . '</a>';
+  if(!empty($results)){
+    // as we don't want to fully bootstrap, we build html ourselves
+    foreach((array)$results as $lid => $string){
+      $items[] = '<a href="/admin/config/regional/translate/edit/'. $lid .'">' . substr($string, 0,100) . '</a>';
+    }
   }
-  $output = '<div class="translation_options"><ul>';
-  foreach($items as $item){
+  else{
+    $items[] = '<a>'. t('No results found') . '</a>';
+  }
+  $output = '<ul>';
+  foreach((array)$items as $item){
     $output .= '<li>' . $item . '</li>';
   }
-  $output .= '</ul></div>';
+  $output .= '</ul>';
   return $output;
 }

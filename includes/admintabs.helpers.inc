@@ -46,18 +46,15 @@ function admintabs_default_navigation(){
   $menutree = menu_build_tree('management');
   $menu = array_shift($menutree);
   $admin = $menu['below'];
-//  $adminsections = array(
-//    'admin/content',
-//    'admin/structure',
-//    'admin/config',
-//    'admin/people',
-//  );
-  foreach($admin as $path => $rootmenu){
-    if(!empty($rootmenu['below'])/* && in_array($rootmenu['link']['link_path'], $adminsections)*/) {
+  $items = array();
+  foreach((array)$admin as $path => $rootmenu){
+    if(!empty($rootmenu['below'])) {
       $items['root'][$rootmenu['link']['mlid']] = theme('parent_tab', $rootmenu['link']);
       $items[$rootmenu['link']['mlid']] = theme('child_tab', $rootmenu['below']);
     }
   }
-  $items['root'] = theme('item_list', array('items' => $items['root']));
-  return $items;
+  if($items['root']){
+    $items['root'] = theme('item_list', array('items' => $items['root']));
+    return $items;
+  }
 }

@@ -15,9 +15,9 @@ function theme_child_tab($vars) {
  * Returns the translation tab html
  */
 function theme_translationlink(){
-  $output = '<span id="translate_link" class="icon"></span>';
-  $translationlink = l(t('Translate'), 'translate', array('attributes' => array('process' => 'backend')));
+  $output = '';
+  $translationlink = l(t('Select text to translate'), '#', array('attributes' => array('process' => 'backend', 'class' => array('translate-trigger'))));
   $output .= theme('item_list', array('items' => array($translationlink)));
-  $output .= '<span id="translate-results"><ul><li><a>Result</a></li></ul></span>';
+  $output .= '<span id="translate-options"></span>';
   return $output;
 }

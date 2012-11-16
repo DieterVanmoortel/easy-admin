@@ -22,7 +22,7 @@ function admintabs_init(){
   if(!path_is_admin($item['path']) && user_access('use admintabs')){
 
     drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
-    if(user_access('translate interface')){
+    if(user_access('translate content')){
       drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
     }
   }
