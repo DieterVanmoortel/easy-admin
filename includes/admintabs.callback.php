@@ -8,14 +8,12 @@ require_once DRUPAL_ROOT . '/includes/common.inc';
 require_once DRUPAL_ROOT . '/includes/module.inc';
 
 $result['status'] = FALSE;
-exit('complete');
 if($value = ltrim($_POST['value'], '/')) {
-
   switch($value){
     case 'flush_caches':
-      drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
-      $result['status'] = la_flush_caches();
-      
+      drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+      drupal_flush_all_caches();
+      $result['status'] = TRUE;
       break;
     case 'rebuild_menu':
       drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
@@ -23,15 +21,22 @@ if($value = ltrim($_POST['value'], '/')) {
       $result['status'] = TRUE;
       break;
     case 'rebuild_css_js':
-      drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
-      cache_clear_all('*', 'cache_menu', TRUE);
+      drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+       _drupal_flush_css_js();
+      registry_rebuild();
+      drupal_clear_css_cache();
+      drupal_clear_js_cache();
       $result['status'] = TRUE;
+      break;
+    case 'run_cron':
+      drupal_bootstrap(DRUPAL_BOOTSTRAP_SESSION);
+      $result['status'] = drupal_cron_run();
       break;
     case 'translate':
       break;
   }
 }
-exit($result);
+exit(drupal_json_output($result));
 
 
 

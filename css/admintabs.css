@@ -49,6 +49,7 @@ div.tabs.admintabs.collapsible:hover{
   padding-left:40px;
 }
 div.tabs.admintabs:hover{
+  cursor:pointer;
   padding-left:50px;
 }
 div.tabs.admintabs.primary{
@@ -62,6 +63,9 @@ div.tabs.admintabs.translate{
   top:205px;
   height:40px;
   background:url('../img/translate.png') no-repeat 5px 10px #000;
+}
+div.tabs.admintabs.translate.collapsible{
+  height:auto;
 }
 div.tabs.admintabs.translate:hover{
   background:url('../img/translatehover.png') no-repeat 5px 10px #000;
@@ -85,14 +89,10 @@ div.tabs.admintabs ul.child-tab{
   display:none;
 }
 
-div.tabs.admintabs.spinner{
-  top: 50%;
-  left:50%;
-  width:150px;
-  height:150px;
-  border-radius: 6px;
-  background-color:#2d2d2d;
-  box-shadow: 0 2px 8px #222;
+div.tabs.admintabs .spinwrapper{
+  background-color:#000;
+  height:100px;
+  width:200px;
   display:none;
 }
 #spinner-msg{
@@ -108,7 +108,9 @@ div.tabs.collapsible{
   box-shadow: 0 2px 8px #222;
   z-index:30;
 }
-
+div.tabs.translate.collapsible{
+  width:300px;
+}
 
 div.subtabs{ /* are we gonna use these?? */
   position:fixed;

@@ -104,6 +104,12 @@ function admintabs_theme($existing, $type, $theme, $path) {
       'path' => drupal_get_path('module', 'admintabs') . '/theme',
       'file' => 'admintabs.theme.inc',
     ),
+    'translationlink' => array(
+      'variables' => array(),
+      
+      'path' => drupal_get_path('module', 'admintabs') . '/theme',
+      'file' => 'admintabs.theme.inc',
+    ),
   );
 }
 
@@ -128,7 +134,7 @@ function admintabs_block_render() {
   $secondary = menu_secondary_local_tasks();
   if(is_array($primary) || is_array($secondary)) {
     // unset the view tab ( which is pretty useless in our case
-    foreach((array)$primary as $key => $value){
+    foreach((array)$primary as $key => $value) {
       if(isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view'){
         unset($primary[$key]);
       }
@@ -140,25 +146,27 @@ function admintabs_block_render() {
     $output .= '</ul></div>';
   }
     // translation option
-  $output .= '<div class="tabs admintabs translate"><span id="translate_link" class="icon"></span>';
-  $translationlink = l(t('Translate'), 'translate', array('attributes' => array('process' => 'backend')));'<span id="translate_options"></span>';
-  $output .= theme('item_list', array('items' => array($translationlink)));
 
+  // TODO IMPLEMENT BABYLON PLUGIN HERE
+  
+  $output .= '<div class="tabs admintabs translate">';
+  $output .= theme('translationlink');
   $output .= '</div>';
 
-
+  // Default navigation
   $navitems = admintabs_default_navigation();
   $output .= '<div class="tabs admintabs nav">';
   $output .= implode('', $navitems);
   $output .= '</div>';
   
+  // Some usefull administer functions
   $default_functions = admintabs_default_functions();
   $functions = theme('item_list', array('items' => $default_functions));
-  $output .= '<div class="tabs admintabs tools"><span class="icon"></span>';
+  $output .= '<div class="tabs admintabs tools">';
   $output .= $functions;
+  $output .= '<div id="adminspinner" class="spinwrapper"><span id="spinner-msg"></span></div>';
   $output .= '</div>';
 
   // spinner
-  $output .= '<div id="adminspinner" class="tabs admintabs spinner"><span id="spinner-msg"></span></div>';
   return $output;
 }

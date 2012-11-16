@@ -12,3 +12,13 @@ function theme_child_tab($vars) {
   }
   return theme('item_list', array('items' => $items, 'attributes' => array('parent' => $plid, 'class' => 'child-tab')));
 }
+/*
+ * Returns the translation tab html
+ */
+function theme_translationlink(){
+  $output = '<span id="translate_link" class="icon"></span>';
+  $translationlink = l(t('Translate'), 'translate', array('attributes' => array('process' => 'backend')));
+  $output .= theme('item_list', array('items' => array($translationlink)));
+  $output .= '<span id="translate-results"><ul><li><a>Result</a></li></ul></span>';
+  return $output;
+}

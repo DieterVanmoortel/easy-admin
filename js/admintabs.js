@@ -9,16 +9,16 @@
       $('.parent-tab').bind('click', function(event){
         event.preventDefault();
         var pid = $(this).attr('mlid');
-
-
+        $('.parent-tab').removeClass('active');
+        $(this).addClass('active');
         $('.child-tab[parent!=' + pid + ']').hide();
         $('.child-tab[parent=' + pid + ']').show();
       })
 
-      $('.admintabs [process=backend] a').click(function(e){
+      $('.admintabs a[process=backend]').click(function(e){
         e.preventDefault();
         $('#adminspinner').toggle();
-        $('#spinner-msg').html($(this).attr('href'));
+        $('#spinner-msg').html($(this).attr('msg'));
         $.ajax({
           url: Drupal.settings.basePath + Drupal.settings.adminTabs.modulePath + '/includes/admintabs.callback.php',
           dataType: "json",
@@ -37,6 +37,7 @@
   function tabexpander_init() {  
     $('.grow-tabs').bind('click', function(){
       $('ul.child-tab').hide();
+      $('.parent-tab').removeClass('active');
       $(this).toggleClass('collapsible');
       $('.admintabs').not($(this)).not('.spinner').fadeToggle('fast');
     });
@@ -60,8 +61,8 @@
       hwaccel: false, // Whether to use hardware acceleration
       className: 'spinner', // The CSS class to assign to the spinner
       zIndex: 2e9, // The z-index (defaults to 2000000000)
-      top: 'auto', // Top position relative to parent in px
-      left: 'auto' // Left position relative to parent in px
+      top: 12, // Top position relative to parent in px
+      left: 0 // Left position relative to parent in px
     };
     target = document.getElementById('adminspinner');
     var spinner = new Spinner(opts).spin(target);
