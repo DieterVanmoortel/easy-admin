@@ -1,33 +1,18 @@
 <?php
 /**
  * @file
- *
+ * All hooks
  */
 
 /**
- * TODO's
+ *  TODO's
  * 
- * - write @file & comments
  * - use sprites for the images
  * - add caching
  * - finetune spinner action
+ * - Check user permissions
  * 
  */
-
-/**
- * Implements hook_init
- */
-function admintabs_init() {
-  global $language;
-  $item = menu_get_item();
-  if (!path_is_admin($item['path']) && user_access('use admintabs')) {
-
-    drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
-    if (user_access('translate content')) {
-      drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
-    }
-  }
-}
 
 /*
  * Implementing hook_permission
@@ -58,6 +43,7 @@ function admintabs_menu() {
     'file' => 'includes/admintabs.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
+  
   return $items;
 }
 /*
@@ -74,7 +60,6 @@ function admintabs_block_info() {
         'administrative' => FALSE,
     ),
   );
-  
   return $blocks;
 }
 
@@ -85,11 +70,13 @@ function admintabs_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'admintabs':
+      module_load_include('inc', 'admintabs', 'includes/admintabs.helpers');
       $block['content'] = admintabs_block_render();
       break;
   }
   return $block;
 }
+
 /**
  * Implements hook_theme().
  */
@@ -112,62 +99,4 @@ function admintabs_theme($existing, $type, $theme, $path) {
       'file' => 'admintabs.theme.inc',
     ),
   );
-}
-
-
-
-/*
- * The content of the easy admin block
- */
-function admintabs_block_render() {
-  module_load_include('inc', 'admintabs', 'includes/admintabs.helpers');
-
-  // don't even bother building this this block on admin pages
-  // maybe make a setting out of this?
-  $item = menu_get_item();
-  if (path_is_admin($item['path'])) {
-    return '';
-  }
-  $output = '';
-  
-  // Primary & secondary actionstabs
-  $primary = menu_primary_local_tasks();
-  $secondary = menu_secondary_local_tasks();
-  if (is_array($primary) || is_array($secondary)) {
-    // unset the view tab ( which is pretty useless in our case
-    foreach ((array)$primary as $key => $value) {
-      if (isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view') {
-        unset($primary[$key]);
-      }
-    }
-
-    $output .= '<div class="tabs admintabs primary"><ul class="tabs primary">';
-    $output .= drupal_render($primary);
-    $output .= drupal_render($secondary);
-    $output .= '</ul></div>';
-  }
-    // translation option
-
-  // TODO IMPLEMENT BABYLON PLUGIN HERE
-  
-  $output .= '<div class="tabs admintabs translate">';
-  $output .= theme('translationlink');
-  $output .= '</div>';
-
-  // Default navigation
-  $navitems = admintabs_default_navigation();
-  $output .= '<div class="tabs admintabs nav">';
-  $output .= implode('', $navitems);
-  $output .= '</div>';
-  
-  // Some usefull administer functions
-  $default_functions = admintabs_default_functions();
-  $functions = theme('item_list', array('items' => $default_functions));
-  $output .= '<div class="tabs admintabs tools">';
-  $output .= $functions;
-  $output .= '<div id="adminspinner" class="spinwrapper"><span id="spinner-msg"></span></div>';
-  $output .= '</div>';
-
-  // spinner
-  return $output;
 }

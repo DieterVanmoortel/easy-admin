@@ -2,7 +2,7 @@
 <?php
 /**
  * @file
- *
+ * Administration pages
  */
 
 function admintabs_settings_form(&$form, &$form_state) {

@@ -3,7 +3,7 @@
     attach: function(context) { 
       spinner_init();
     
-      $('.tabs, #breadcrumb, .dev-query').not('.spinner').addClass('grow-tabs');
+      $('.tab, #breadcrumb, .dev-query').not('.spinner').addClass('grow-tabs');
       tabexpander_init();
 
       $('.parent-tab').bind('click', function(event){
@@ -15,8 +15,12 @@
         $('.child-tab[parent=' + pid + ']').show();
       })
 
-      $('.admintabs a[process=backend]').click(function(e){
+      $('#admintabs .tab a[process=none]').click(function(e){
         e.preventDefault();
+      });
+      
+      $('#admintabs .tab a[process=backend]').click(function(e){
+        
         $('#adminspinner').toggle();
         $('#spinner-msg').html($(this).attr('msg'));
         $.ajax({
@@ -39,7 +43,7 @@
       $('ul.child-tab').hide();
       $('.parent-tab').removeClass('active');
       $(this).toggleClass('collapsible');
-      $('.admintabs').not($(this)).not('.spinner').fadeToggle('fast');
+      $('#admintabs .tab').not($(this)).not('.spinner').fadeToggle('fast');
     });
     $('.grow-tabs').children().bind('click', function(event){
       event.stopPropagation()

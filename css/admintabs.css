@@ -1,4 +1,4 @@
-div.tabs.admintabs{
+#admintabs .tab{
   position:fixed;
   right:0;
   width:0px;
@@ -8,11 +8,11 @@ div.tabs.admintabs{
   border-radius: 6px 0 0 6px;
 }
 
-div.tabs.admintabs.tabs ul{
+#admintabs .tab ul{
   margin: 2px;
   padding: 5px;
 }
-div.tabs.admintabs.tabs ul li a{
+#admintabs .tab ul li a{
   border:none;
   background:#555;
   color:#DDD;
@@ -24,72 +24,72 @@ div.tabs.admintabs.tabs ul li a{
 
 }
 
-div.tabs.admintabs.tabs ul li{
+#admintabs .tab ul li{
   background-color:#2d2d2d;
   list-style-type: none;
 /*  margin-bottom:1px;*/
 }
-div.tabs.admintabs.tabs ul li a:hover{
+#admintabs .tab ul li a:hover{
   background:#666;
   text-decoration:none;
 }
-div.tabs.admintabs.tabs ul li a.active{
+#admintabs .tab ul li a.active{
   color:#FFFFFF;
   background:#888;
   border:none;
 }
 
-div.tabs.admintabs ul.primary{
+#admintabs .tab.primary ul{
   border: 0;
 }
-div.tabs.admintabs.nav.collapsible{
+#admintabs .tab.nav.collapsible{
   z-index:20;
 }
-div.tabs.admintabs.collapsible:hover{
+#admintabs .tab.collapsible:hover{
   padding-left:40px;
 }
-div.tabs.admintabs:hover{
+#admintabs .tab:hover{
   cursor:pointer;
   padding-left:50px;
 }
-div.tabs.admintabs.primary{
+#admintabs .tab.primary{
   top:100px;
   background:url('../img/tool.png') no-repeat 5px 10px #000; 
 }
-div.tabs.admintabs.primary:hover{
+#admintabs .tab.primary:hover{
   background:url('../img/hovertool.png') no-repeat 5px 10px #000; 
 }
-div.tabs.admintabs.translate{
+#admintabs .tab.translate{
   top:205px;
   height:40px;
   background:url('../img/translate.png') no-repeat 5px 10px #000;
 }
-div.tabs.admintabs.translate.collapsible{
+#admintabs .tab.translate.collapsible{
   height:auto;
 }
-div.tabs.admintabs.translate:hover{
+#admintabs .tab.translate:hover{
   background:url('../img/translatehover.png') no-repeat 5px 10px #000;
 }
-div.tabs.admintabs.nav{
+#admintabs .tab.nav{
   top:250px;
   background:url('../img/navigation.png') no-repeat 5px 10px #000;
 }
-div.tabs.admintabs.nav:hover, div.tabs.admintabs.nav.collapsible{
+#admintabs .tab.nav:hover, #admintabs .tab.nav.collapsible{
   background:url('../img/navigationhover.png') no-repeat 5px 10px #000;
 }
-div.tabs.admintabs.tools{
+#admintabs .tab.tools{
   top:355px;
   background:url('../img/gear.png') no-repeat 5px 10px #000;
 }
-div.tabs.admintabs.tools:hover, div.tabs.admintabs.tools.collapsible{
+#admintabs .tab.tools:hover, #admintabs .tab.tools.collapsible{
   background:url('../img/gearhover.png') no-repeat 5px 10px #000;
 }
 
-div.tabs.admintabs ul.child-tab{
+#admintabs .tab ul.child-tab{
   display:none;
 }
 
-div.tabs.admintabs.spinner{
+#admintabs .tab .spinner{
   top: 50%;
   left:50%;
   width:150px;
@@ -100,7 +100,7 @@ div.tabs.admintabs.spinner{
   display:none;
 }
 
-div.tabs.admintabs .spinwrapper{
+#admintabs .tab .spinwrapper{
   background-color:#000;
   height:100px;
   width:200px;
@@ -113,38 +113,29 @@ div.tabs.admintabs .spinwrapper{
   left:75px;
 }
 
-div.tabs.collapsible{
+#admintabs .tab.collapsible{
   height:auto;
   width:200px;
   box-shadow: 0 2px 8px #222;
   z-index:30;
 }
-div.tabs.translate.collapsible{
+#admintabs .tab.translate.collapsible{
   width:300px;
 }
 
-div.subtabs{ /* are we gonna use these?? */
-  position:fixed;
-  right:0px;
-  width:10px;
-  top:440px;
-}
-div.subtabs.fullblown{
-  width:200px;
-}
 /*                Contextual fix                */
 
-.block-admintabs .contextual-links-trigger{
+#admintabs .contextual-links-trigger{
   display:block;
   position:fixed;
   right:0;
   top:100px;
 }
-
-
+ 
 /**
  * Breadcrumb
- */
+ 
+ 
 #breadcrumb{
   background:url('../images/return.png') no-repeat 5px 7px #000;
   padding-left:25px;
@@ -186,7 +177,7 @@ div.subtabs.fullblown{
 }
 
 
-/* DEVEL QUERY LOGS */
+ DEVEL QUERY LOGS 
 div.dev-query{
   background:url('../images/query.png') no-repeat 3px 7px #000;
   padding-left:25px;
@@ -207,4 +198,4 @@ div.dev-query.collapsible{
 div.dev-query:hover, div.dev-query.collapsible{
     background:url('../images/queryhover.png') no-repeat 3px 7px #000;
 }
-div.devel-querylog  {display:none;}
+div.devel-querylog  {display:none;}*/

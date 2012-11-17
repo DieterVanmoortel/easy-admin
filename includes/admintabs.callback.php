@@ -8,7 +8,7 @@ require_once DRUPAL_ROOT . '/includes/common.inc';
 require_once DRUPAL_ROOT . '/includes/module.inc';
 
 $result['status'] = FALSE;
-exit('complete');
+
 if($value = ltrim($_POST['value'], '/')) {
   switch($value){
     case 'flush_caches':

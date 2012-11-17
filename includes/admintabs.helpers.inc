@@ -1,7 +1,70 @@
 <?php
 /**
  * @file
- *
+ * Helper functions
+ */
+
+/*
+ * The content of the easy admin block
+ */
+function admintabs_block_render() {
+  global $language;
+  drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
+  if (user_access('translate content')) {
+    drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
+  }
+
+  $item = menu_get_item();
+  if (path_is_admin($item['path'])) {
+    return '';
+  }
+  
+  $output = '<div id="admintabs">';
+  
+  // Primary & secondary actions
+  $primary = menu_primary_local_tasks();
+  $secondary = menu_secondary_local_tasks();
+  if (is_array($primary) || is_array($secondary)) {
+    // unset the view tab ( which is pretty useless in our case
+    foreach ((array)$primary as $key => $value) {
+      if (isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view') {
+        unset($primary[$key]);
+      }
+    }
+
+    $output .= '<div class="tab primary"><ul>';
+    $output .= drupal_render($primary);
+    $output .= drupal_render($secondary);
+    $output .= '</ul></div>';
+  }
+  
+  // translation option
+  $output .= '<div class="tab translate">';
+  $output .= theme('translationlink');
+  $output .= '</div>';
+
+  // Navigation menu
+  $navitems = admintabs_default_navigation();
+  $output .= '<div class="tab nav">';
+  $output .= implode('', $navitems);
+  $output .= '</div>';
+  
+  // Administrator functions
+  $default_functions = admintabs_default_functions();
+  $functions = theme('item_list', array('items' => $default_functions));
+  $output .= '<div class="tab tools">';
+  $output .= $functions;
+  $output .= '<div id="adminspinner" class="spinwrapper"><span id="spinner-msg"></span></div>';
+  $output .= '</div>';
+
+  $output .= '</div>'; // close the admintabs div
+  // spinner
+  return $output;
+}
+
+/*
+ * Often used Administrator functions
+ * Return array
  */
 function admintabs_default_functions() {
   $actions = array(
@@ -46,6 +109,9 @@ function admintabs_default_functions() {
 }
 
 
+/*
+ * Navigation structure from the 'management' menu
+ */
 function admintabs_default_navigation() {
   $menutree = menu_build_tree('management');
   $menu = array_shift($menutree);
