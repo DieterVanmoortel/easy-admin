@@ -1,13 +1,14 @@
 <?php
-
+/**
+ * @file
+ *
+ */
 
 /**
  * TODO's
  * 
+ * - write @file & comments
  * - use sprites for the images
- * - switch to ajax for backend actions
- * - smoother jquery
- * - develop some cool navigation system in jquery
  * - add caching
  * - finetune spinner action
  * 
@@ -16,13 +17,13 @@
 /**
  * Implements hook_init
  */
-function admintabs_init(){
+function admintabs_init() {
   global $language;
   $item = menu_get_item();
-  if(!path_is_admin($item['path']) && user_access('use admintabs')){
+  if (!path_is_admin($item['path']) && user_access('use admintabs')) {
 
     drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
-    if(user_access('translate content')){
+    if (user_access('translate content')) {
       drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
     }
   }
@@ -31,7 +32,7 @@ function admintabs_init(){
 /*
  * Implementing hook_permission
  */
-function admintabs_permission(){
+function admintabs_permission() {
    return array(
     'use admintabs' => array(    // use the admin tabs
       'title' => t('Use Admin Tabs'),
@@ -47,10 +48,10 @@ function admintabs_permission(){
 /*
  *  Implementing hook_menu
  */
-function admintabs_menu(){
+function admintabs_menu() {
   $items = array();
   $items['admin/config/admintabs/'] = array(
-    'title' => t('Admin tabs'),
+    'title' => 'Admin tabs',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('admintabs_settings_form'),
     'access arguments' => array('configure admintabs'),
@@ -124,7 +125,7 @@ function admintabs_block_render() {
   // don't even bother building this this block on admin pages
   // maybe make a setting out of this?
   $item = menu_get_item();
-  if(path_is_admin($item['path'])){
+  if (path_is_admin($item['path'])) {
     return '';
   }
   $output = '';
@@ -132,10 +133,10 @@ function admintabs_block_render() {
   // Primary & secondary actionstabs
   $primary = menu_primary_local_tasks();
   $secondary = menu_secondary_local_tasks();
-  if(is_array($primary) || is_array($secondary)) {
+  if (is_array($primary) || is_array($secondary)) {
     // unset the view tab ( which is pretty useless in our case
-    foreach((array)$primary as $key => $value) {
-      if(isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view'){
+    foreach ((array)$primary as $key => $value) {
+      if (isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view') {
         unset($primary[$key]);
       }
     }

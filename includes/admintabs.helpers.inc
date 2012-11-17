@@ -1,5 +1,9 @@
 <?php
-function admintabs_default_functions(){
+/**
+ * @file
+ *
+ */
+function admintabs_default_functions() {
   $actions = array(
     'flush_caches' => array(
       'title' => t('Flush Caches'),
@@ -34,7 +38,7 @@ function admintabs_default_functions(){
     ),
   );
 
-  foreach($actions as $callback => $action) {
+  foreach ((array)$actions as $callback => $action) {
     $options = isset($action['attributes']) ? $action['attributes'] : array();
     $items[] = l($action['title'], $callback, array('attributes' => $options));
   }
@@ -42,18 +46,18 @@ function admintabs_default_functions(){
 }
 
 
-function admintabs_default_navigation(){
+function admintabs_default_navigation() {
   $menutree = menu_build_tree('management');
   $menu = array_shift($menutree);
   $admin = $menu['below'];
   $items = array();
-  foreach((array)$admin as $path => $rootmenu){
-    if(!empty($rootmenu['below'])) {
+  foreach ((array)$admin as $path => $rootmenu) {
+    if (!empty($rootmenu['below'])) {
       $items['root'][$rootmenu['link']['mlid']] = theme('parent_tab', $rootmenu['link']);
       $items[$rootmenu['link']['mlid']] = theme('child_tab', $rootmenu['below']);
     }
   }
-  if($items['root']){
+  if ($items['root']) {
     $items['root'] = theme('item_list', array('items' => $items['root']));
     return $items;
   }

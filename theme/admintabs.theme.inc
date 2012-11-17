@@ -1,11 +1,16 @@
 <?php
+/**
+ * @file
+ *
+ */
+
 function theme_parent_tab($vars) {
   $title = $vars['link_title'];
   return '<a class="parent-tab" mlid=' . $vars['mlid'] . '>' . $title . '</a>';
 }
 
 function theme_child_tab($vars) {
-  foreach($vars as $var) {
+  foreach ((array)$vars as $var) {
     $plid = $var['link']['plid'];
     $items[] = l($var['link']['link_title'], $var['link']['link_path']);
   }
@@ -14,7 +19,7 @@ function theme_child_tab($vars) {
 /*
  * Returns the translation tab html
  */
-function theme_translationlink(){
+function theme_translationlink() {
   $output = '';
   $translationlink = l(t('Select text to translate'), '#', array('attributes' => array('process' => 'backend', 'class' => array('translate-trigger'))));
   $output .= theme('item_list', array('items' => array($translationlink)));
