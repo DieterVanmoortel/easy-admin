@@ -16,25 +16,20 @@ function admintabs_block_render() {
 
   $item = menu_get_item();
   if (path_is_admin($item['path'])) {
-    return '';
+//    return '';
   }
   
   $output = '<div id="admintabs">';
   
   // Primary & secondary actions
-  $primary = menu_primary_local_tasks();
-  $secondary = menu_secondary_local_tasks();
-  if (is_array($primary) || is_array($secondary)) {
+  $tasks = menu_local_tasks();
+  if (is_array($tasks['tabs']['output'])) {
     // unset the view tab ( which is pretty useless in our case
-    foreach ((array)$primary as $key => $value) {
-      if (isset($value['#link']['path']) && $value['#link']['path'] == 'node/%/view') {
-        unset($primary[$key]);
-      }
-    }
 
     $output .= '<div class="tab primary"><ul>';
-    $output .= drupal_render($primary);
-    $output .= drupal_render($secondary);
+    $output .= drupal_render($tasks['tabs']['output']);
+    $output .= '</ul><ul>';
+    $output .= drupal_render($tasks['actions']['output']);
     $output .= '</ul></div>';
   }
   
@@ -45,7 +40,7 @@ function admintabs_block_render() {
 
   // Navigation menu
   $navitems = admintabs_default_navigation();
-  $output .= '<div class="tab nav">';
+  $output .= '<div class="tab navigate">';
   $output .= implode('', $navitems);
   $output .= '</div>';
   
@@ -123,8 +118,8 @@ function admintabs_default_navigation() {
       $items[$rootmenu['link']['mlid']] = theme('child_tab', $rootmenu['below']);
     }
   }
-  if ($items['root']) {
+  if (isset($items['root'])) {
     $items['root'] = theme('item_list', array('items' => $items['root']));
-    return $items;
   }
+  return $items;
 }

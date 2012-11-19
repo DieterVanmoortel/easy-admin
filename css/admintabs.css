@@ -4,15 +4,29 @@
   width:0px;
   padding-left:40px;
   height:100px;
-  z-index:20;
+  z-index:999999; 
   border-radius: 6px 0 0 6px;
 }
-
+#admintabs .tab.collapsible{
+  height:auto;
+  width:200px;
+  box-shadow: 0 2px 8px #222;
+}
+#admintabs .tab.collapsible:hover{
+  padding-left:40px;
+}
+#admintabs .tab:hover{
+  cursor:pointer;
+  padding-left:50px;
+}
 #admintabs .tab ul{
-  margin: 2px;
+  margin:2px;
   padding: 5px;
+  float:none;
+  right:0;
 }
 #admintabs .tab ul li a{
+  font-size:11px!important;
   border:none;
   background:#555;
   color:#DDD;
@@ -21,13 +35,12 @@
   line-height:27px;
   padding-left:12px;
   margin:0 0 1px 0;
-
+  overflow:hidden;
 }
 
 #admintabs .tab ul li{
   background-color:#2d2d2d;
   list-style-type: none;
-/*  margin-bottom:1px;*/
 }
 #admintabs .tab ul li a:hover{
   background:#666;
@@ -38,20 +51,19 @@
   background:#888;
   border:none;
 }
-
+/*********** PRIMARY & SECONDARY ACTIONS ************/
 #admintabs .tab.primary ul{
   border: 0;
 }
-#admintabs .tab.nav.collapsible{
-  z-index:20;
+#admintabs .tab.primary ul.secondary-tabs{
+  background-color: #555;
+  border-radius: 0;
+  margin:0;
 }
-#admintabs .tab.collapsible:hover{
-  padding-left:40px;
+#admintabs .tab.primary ul.secondary-tabs li a{
+  background-color:#000;
 }
-#admintabs .tab:hover{
-  cursor:pointer;
-  padding-left:50px;
-}
+
 #admintabs .tab.primary{
   top:100px;
   background:url('../img/tool.png') no-repeat 5px 10px #000; 
@@ -59,6 +71,7 @@
 #admintabs .tab.primary:hover{
   background:url('../img/hovertool.png') no-repeat 5px 10px #000; 
 }
+/************ TRANSLATION TAB *********************/
 #admintabs .tab.translate{
   top:205px;
   height:40px;
@@ -66,17 +79,20 @@
 }
 #admintabs .tab.translate.collapsible{
   height:auto;
+  width:300px;
 }
 #admintabs .tab.translate:hover{
   background:url('../img/translatehover.png') no-repeat 5px 10px #000;
 }
-#admintabs .tab.nav{
+/************** NAVIGATION TAB ************/
+#admintabs .tab.navigate{
   top:250px;
   background:url('../img/navigation.png') no-repeat 5px 10px #000;
 }
-#admintabs .tab.nav:hover, #admintabs .tab.nav.collapsible{
+#admintabs .tab.navigate:hover, #admintabs .tab.navigate.collapsible{
   background:url('../img/navigationhover.png') no-repeat 5px 10px #000;
 }
+/*********************** ADMIN TOOLS ********************/
 #admintabs .tab.tools{
   top:355px;
   background:url('../img/gear.png') no-repeat 5px 10px #000;
@@ -86,17 +102,6 @@
 }
 
 #admintabs .tab ul.child-tab{
-  display:none;
-}
-
-#admintabs .tab .spinner{
-  top: 50%;
-  left:50%;
-  width:150px;
-  height:150px;
-  border-radius: 6px;
-  background-color:#2d2d2d;
-  box-shadow: 0 2px 8px #222;
   display:none;
 }
 
@@ -113,15 +118,6 @@
   left:75px;
 }
 
-#admintabs .tab.collapsible{
-  height:auto;
-  width:200px;
-  box-shadow: 0 2px 8px #222;
-  z-index:30;
-}
-#admintabs .tab.translate.collapsible{
-  width:300px;
-}
 
 /*                Contextual fix                */
 

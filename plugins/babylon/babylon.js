@@ -2,7 +2,7 @@
   Drupal.behaviors.babylon = {
     attach: function(context) {
      $(document).bind("mouseup", function(){
-       if($('.admintabs.translate.collapsible').length){
+       if($('#admintabs .tab.translate.collapsible').length){
          reactOnMouseUp();
        }
      });
@@ -27,14 +27,16 @@
       return t;
     }
   function translateText(){
-    text = $('#translate-options').attr('text');
+    var text = $('#translate-options').attr('text');
+    var url = window.location.pathname;
     $.ajax({
       url: Drupal.settings.basePath + Drupal.settings.adminTabs.modulePath + '/plugins/babylon/babylon.json.php',
       dataType: "json",
       type: "POST",
       data: {
         text: text,
-        lang: 'nl'
+        lang: 'nl',
+        url: url
       },
       success: function(data){
         $('.translate-trigger').html(Drupal.t('Select an option'));

@@ -56,7 +56,7 @@ function admintabs_block_info() {
     'info' => t('Admin Tabs'),
     'region' => 'content',
     'status' => 1,
-    'propertiers' => array(
+    'properties' => array(
         'administrative' => FALSE,
     ),
   );

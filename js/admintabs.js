@@ -20,7 +20,7 @@
       });
       
       $('#admintabs .tab a[process=backend]').click(function(e){
-        
+        e.preventDefault();
         $('#adminspinner').toggle();
         $('#spinner-msg').html($(this).attr('msg'));
         $.ajax({

@@ -15,8 +15,8 @@ $value = trim($_POST['text']);
 $lang = $_POST['lang'];
 
 $results = babylon_translate_seek($value, $lang);
-$output = theme_results($results);
-
+$output = theme_results($results, $_POST['url']);
+header("Cache-Control: no-cache, must-revalidate, max-age=0");
 drupal_json_output($output);
 
 
@@ -44,12 +44,12 @@ function babylon_translate_seek($string = '', $lang = 'en'){
       $sql_query->condition($condition);
 
   $limit_language = NULL;
-  if ($query['language'] != 'en' && $query['language'] != 'all') {
-//    $sql_query->condition('language', $query['language']);
-    $limit_language = $query['language'];
-  }
+//  if ($query['language'] != 'en' && $query['language'] != 'all') {
+////    $sql_query->condition('language', $query['language']);
+//    $limit_language = $query['language'];
+//  }
 
-  $sql_query = $sql_query->extend('PagerDefault')->limit(25);
+  $sql_query = $sql_query->extend('PagerDefault')->limit(10);
   $locales = $sql_query->execute()->fetchAll();
 
   foreach((array)$locales as $locale) {
@@ -59,11 +59,14 @@ function babylon_translate_seek($string = '', $lang = 'en'){
   return $strings;
 }
 
-function theme_results($results){
+function theme_results($results, $url = ''){
+  if(!empty($url)){
+    $url = '?destination=' . $url;
+  }
   if(!empty($results)){
     // as we don't want to fully bootstrap, we build html ourselves
     foreach((array)$results as $lid => $string){
-      $items[] = '<a href="/admin/config/regional/translate/edit/'. $lid .'">' . substr($string, 0,100) . '</a>';
+      $items[] = '<a href="/admin/config/regional/translate/edit/'. $lid . $url . '">' . substr($string, 0,100) . '</a>';
     }
   }
   else{
