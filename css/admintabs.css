@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #admintabs .tab{
   position:fixed;
   right:0;
@@ -194,4 +195,199 @@ div.dev-query.collapsible{
 div.dev-query:hover, div.dev-query.collapsible{
     background:url('../images/queryhover.png') no-repeat 3px 7px #000;
 }
+=======
+#admintabs .tab{
+  position:fixed;
+  right:0;
+  width:0px;
+  padding-left:40px;
+  height:100px;
+  z-index:999999; 
+  border-radius: 6px 0 0 6px;
+}
+#admintabs .tab.collapsible{
+  height:auto;
+  width:200px;
+  box-shadow: 0 2px 8px #222;
+}
+#admintabs .tab.collapsible:hover{
+  padding-left:40px;
+}
+#admintabs .tab:hover{
+  cursor:pointer;
+  padding-left:50px;
+}
+#admintabs .tab ul{
+  margin:2px;
+  padding: 5px;
+}
+#admintabs .tab ul li a{
+  font-size:11px!important;
+  border:none;
+  background:#555;
+  color:#DDD;
+  height:25px;
+  display:block;
+  line-height:27px;
+  padding-left:12px;
+  margin:0 0 1px 0;
+}
+
+#admintabs .tab ul li{
+  background-color:#2d2d2d;
+  list-style-type: none;
+}
+#admintabs .tab ul li a:hover{
+  background:#666;
+  text-decoration:none;
+}
+#admintabs .tab ul li a.active{
+  color:#FFFFFF;
+  background:#888;
+  border:none;
+}
+/*********** PRIMARY & SECONDARY ACTIONS ************/
+#admintabs .tab.primary ul{
+  border: 0;
+}
+#admintabs .tab.primary ul.secondary-tabs{
+  background-color: #555;
+  border-radius: 0;
+  margin:0;
+}
+#admintabs .tab.primary ul.secondary-tabs li a{
+  background-color:#000;
+}
+
+#admintabs .tab.primary{
+  top:100px;
+  background:url('../img/tool.png') no-repeat 5px 10px #000; 
+}
+#admintabs .tab.primary:hover{
+  background:url('../img/hovertool.png') no-repeat 5px 10px #000; 
+}
+/************ TRANSLATION TAB *********************/
+#admintabs .tab.translate{
+  top:205px;
+  height:40px;
+  background:url('../img/translate.png') no-repeat 5px 10px #000;
+}
+#admintabs .tab.translate.collapsible{
+  height:auto;
+  width:300px;
+}
+#admintabs .tab.translate:hover{
+  background:url('../img/translatehover.png') no-repeat 5px 10px #000;
+}
+/************** NAVIGATION TAB ************/
+#admintabs .tab.nav{
+  top:250px;
+  background:url('../img/navigation.png') no-repeat 5px 10px #000;
+}
+#admintabs .tab.nav:hover, #admintabs .tab.nav.collapsible{
+  background:url('../img/navigationhover.png') no-repeat 5px 10px #000;
+}
+/*********************** ADMIN TOOLS ********************/
+#admintabs .tab.tools{
+  top:355px;
+  background:url('../img/gear.png') no-repeat 5px 10px #000;
+}
+#admintabs .tab.tools:hover, #admintabs .tab.tools.collapsible{
+  background:url('../img/gearhover.png') no-repeat 5px 10px #000;
+}
+
+#admintabs .tab ul.child-tab{
+  display:none;
+}
+
+#admintabs .tab .spinwrapper{
+  background-color:#000;
+  height:100px;
+  width:200px;
+  display:none;
+}
+#spinner-msg{
+  color:#CDCDCD;
+  position:absolute;
+  bottom:12px;
+  left:75px;
+}
+
+
+/*                Contextual fix                */
+
+#admintabs .contextual-links-trigger{
+  display:block;
+  position:fixed;
+  right:0;
+  top:100px;
+}
+ 
+/**
+ * Breadcrumb
+ 
+ 
+#breadcrumb{
+  background:url('../images/return.png') no-repeat 5px 7px #000;
+  padding-left:25px;
+  width: 0px;
+  height:30px;
+  position:fixed;
+  right:0;
+  top: 105px;
+  border-radius: 6px 0 0 6px;
+  z-index:20;
+}
+#breadcrumb:hover, #breadcrumb.collapsible {
+    background:url('../images/returnhover.png') no-repeat 5px 7px #000;
+}
+#breadcrumb.collapsible {
+  width:200px;
+}
+
+#breadcrumb .breadcrumb{
+  padding:5px;
+}
+
+#breadcrumb a{
+  color:#818181;
+}
+
+#breadcrumb ul{
+  overflow:hidden;
+}
+
+#breadcrumb ul li{
+  float:left;
+  margin-right:5px;
+  list-style:none outside none;
+}
+
+#breadcrumb ul li a{
+  color:#818181;
+}
+
+
+ DEVEL QUERY LOGS 
+div.dev-query{
+  background:url('../images/query.png') no-repeat 3px 7px #000;
+  padding-left:25px;
+  width: 245px;
+  height:30px;
+  position:fixed;
+  right:-280px;
+  bottom: 40px;
+  border-radius: 6px 0 0 6px;
+  border:none;
+  z-index:20;
+  padding:5px 30px;
+  color:white;
+}
+div.dev-query.collapsible{
+  right:0;
+}
+div.dev-query:hover, div.dev-query.collapsible{
+    background:url('../images/queryhover.png') no-repeat 3px 7px #000;
+}
+>>>>>>> d66f6decb4dfd6e286e7f75462dd33536bba89bf
 div.devel-querylog  {display:none;}*/
