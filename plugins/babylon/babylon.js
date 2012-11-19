@@ -2,7 +2,7 @@
   Drupal.behaviors.babylon = {
     attach: function(context) {
      $(document).bind("mouseup", function(){
-       if($('.admintabs.translate.collapsible').length){
+       if($('#admintabs .tab.translate.collapsible').length){
          reactOnMouseUp();
        }
      });

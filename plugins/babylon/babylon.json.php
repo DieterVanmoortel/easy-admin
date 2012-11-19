@@ -16,7 +16,7 @@ $lang = $_POST['lang'];
 
 $results = babylon_translate_seek($value, $lang);
 $output = theme_results($results);
-
+header("Cache-Control: no-cache, must-revalidate, max-age=0");
 drupal_json_output($output);
 
 
