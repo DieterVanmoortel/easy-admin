@@ -8,41 +8,42 @@
  * The content of the easy admin block
  */
 function admintabs_block_render() {
-  global $language;
-  drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
-  if (user_access('translate content')) {
-    drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
-  }
-
-  $item = menu_get_item();
-  if (path_is_admin($item['path'])) {
-//    return '';
-  }
-  
   $output = '<div id="admintabs">';
   
   // Primary & secondary actions
   $tasks = menu_local_tasks();
-  if (is_array($tasks['tabs']['output'])) {
-    // unset the view tab ( which is pretty useless in our case
-
-    $output .= '<div class="tab primary"><ul>';
-    $output .= drupal_render($tasks['tabs']['output']);
-    $output .= '</ul><ul>';
-    $output .= drupal_render($tasks['actions']['output']);
-    $output .= '</ul></div>';
+  // todo : unset view tab on non admin pages
+  // todo : make modules link directly to modules page ( e.o. )
+  if ($tasks['tabs']['count'] || $tasks['actions']['count']) {
+    $output .= '<div class="tab primary">';
+    if (!empty($tasks['tabs']['output'])) {
+      $output .= '<ul>';
+      $output .= drupal_render($tasks['tabs']['output']);
+      $output .= '</ul>';
+    }
+    if (!empty($tasks['actions']['output'])) {
+      $output .= '<ul>';
+      $output .= drupal_render($tasks['actions']['output']);
+      $output .= '</ul>';
+    }
+    $output .= '</div>';
   }
-  
-  // translation option
-  $output .= '<div class="tab translate">';
-  $output .= theme('translationlink');
-  $output .= '</div>';
+  // translation
+  if (user_access('translate content')) {
+    drupal_add_js(drupal_get_path('module', 'admintabs') . '/plugins/babylon/babylon.js');
+    $output .= '<div class="tab translate">';
+    $output .= theme('translationlink');
+    $output .= '</div>';
+  }
+
 
   // Navigation menu
   $navitems = admintabs_default_navigation();
-  $output .= '<div class="tab navigate">';
-  $output .= implode('', $navitems);
-  $output .= '</div>';
+  if(!empty($navitems)){
+    $output .= '<div class="tab navigate">';
+    $output .= implode('', $navitems);
+    $output .= '</div>';
+  }
   
   // Administrator functions
   $default_functions = admintabs_default_functions();

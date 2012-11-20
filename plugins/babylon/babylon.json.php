@@ -15,11 +15,8 @@ $value = trim($_POST['text']);
 $lang = $_POST['lang'];
 
 $results = babylon_translate_seek($value, $lang);
-<<<<<<< HEAD
 $output = theme_results($results, $_POST['url']);
-=======
-$output = theme_results($results);
->>>>>>> d66f6decb4dfd6e286e7f75462dd33536bba89bf
+
 header("Cache-Control: no-cache, must-revalidate, max-age=0");
 drupal_json_output($output);
 

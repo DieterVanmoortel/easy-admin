@@ -1,6 +1,8 @@
 (function($){
   Drupal.behaviors.adminTabs = {
-    attach: function(context) { 
+    attach: function(context) {
+
+      // TODO : find a faster way of showing spinner!
       spinner_init();
     
       $('.tab, #breadcrumb, .dev-query').not('.spinner').addClass('grow-tabs');

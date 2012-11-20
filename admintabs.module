@@ -46,35 +46,20 @@ function admintabs_menu() {
   
   return $items;
 }
-/*
- * Implementation of hook_block_info
- */
-function admintabs_block_info() {
-  $blocks = array();
-  
-  $blocks['admintabs'] = array(
-    'info' => t('Admin Tabs'),
-    'region' => 'content',
-    'status' => 1,
-    'properties' => array(
-        'administrative' => FALSE,
-    ),
-  );
-  return $blocks;
-}
 
-/**
- * Implements hook_block_view().
+/*
+ * Implements hook_page_build
  */
-function admintabs_block_view($delta = '') {
-  $block = array();
-  switch ($delta) {
-    case 'admintabs':
-      module_load_include('inc', 'admintabs', 'includes/admintabs.helpers');
-      $block['content'] = admintabs_block_render();
-      break;
+function admintabs_page_build(&$page) {
+  global $language;
+  if(user_access('use admintabs')) {
+    drupal_add_js(array('adminTabs' => array('modulePath' =>  drupal_get_path('module', 'admintabs'), 'lang' =>  $language->language)), 'setting');
+    module_load_include('inc', 'admintabs', 'includes/admintabs.helpers');
+    $page['page_bottom']['admintabs'] = array(
+      '#type' => 'markup',
+      '#markup' => admintabs_block_render(),
+    );
   }
-  return $block;
 }
 
 /**
@@ -94,7 +79,6 @@ function admintabs_theme($existing, $type, $theme, $path) {
     ),
     'translationlink' => array(
       'variables' => array(),
-      
       'path' => drupal_get_path('module', 'admintabs') . '/theme',
       'file' => 'admintabs.theme.inc',
     ),
