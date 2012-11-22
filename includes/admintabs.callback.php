@@ -9,16 +9,43 @@ require_once DRUPAL_ROOT . '/includes/module.inc';
 
 $result['status'] = FALSE;
 
-if($value = ltrim($_POST['value'], '/')) {
+if(!isset($_POST['value'])) {
+  $value = $_GET['q'];
+  var_dump($value);
+}else{
+  $value = ltrim($_POST['value'], '/');
+}
+if($value) {
   switch($value){
     case 'flush_caches':
       drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-      drupal_flush_all_caches();
+      $core_tables = array(
+        'cache',
+        'cache_form',
+        'cache_menu',
+        'cache_path',
+        'cache_filter',
+        'cache_bootstrap',
+        'cache_filter',
+        'cache_page',
+        'cache_l10n_update'
+      );
+      $other = module_invoke_all('flush_caches');
+      $same = array_intersect($other, $core_tables);
+      $tables = array_merge($core_tables, module_invoke_all('flush_caches'));
+      foreach ($tables as $table) {
+        try{
+          db_delete($table)->execute();
+        }
+        catch(Exception $e){
+          watchdog('clear cache', 'Unable to empty table');
+        }
+      }
       $result['status'] = TRUE;
       break;
     case 'rebuild_menu':
       drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
-      cache_clear_all('*', 'cache_menu', TRUE);
+      db_delete('cache_menu')->execute();
       $result['status'] = TRUE;
       break;
     case 'rebuild_css_js':
@@ -38,32 +65,3 @@ if($value = ltrim($_POST['value'], '/')) {
   }
 }
 exit(drupal_json_output($result));
-
-
-
-
-
-
-
-/**************** CALLBACK FUNCTIONS ************************************/
-function connect_to_db(){
-  // get database settings & open connection
-  $loc = $_SERVER['SERVER_NAME'];
-  if (is_file($_SERVER['DOCUMENT_ROOT'] . '/sites/' . $loc . '/settings.php')) {
-    $settings = $_SERVER['DOCUMENT_ROOT'] . '/sites/' . $loc . '/settings.php';
-  }
-  elseif(is_file($_SERVER['DOCUMENT_ROOT'] . '/sites/default/settings.php')) {
-    $settings = $_SERVER['DOCUMENT_ROOT'] . '/sites/default/settings.php';
-  }
-  else {
-    die('Could not open database settings file"\n"');
-  }
-  require_once($settings);
-  $host = $databases['default']['default']['host'];
-  $db = $databases['default']['default']['database'];
-  $user = $databases['default']['default']['username'];
-  $pass = $databases['default']['default']['password'];
-
-  $con = mysql_connect($host, $user, $pass);
-  $db = mysql_select_db($db);
-}

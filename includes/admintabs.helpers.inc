@@ -99,7 +99,8 @@ function admintabs_default_functions() {
 
   foreach ((array)$actions as $callback => $action) {
     $options = isset($action['attributes']) ? $action['attributes'] : array();
-    $items[] = l($action['title'], $callback, array('attributes' => $options));
+    $external = (isset($options['process']) && $options['process'] == 'backend') ? TRUE : FALSE;
+    $items[] = l($action['title'], $callback, array('external' => $external, 'attributes' => $options));
   }
   return $items;
 }
