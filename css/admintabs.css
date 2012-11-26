@@ -73,7 +73,6 @@
 }
 /************ TRANSLATION TAB *********************/
 #admintabs .tab.translate{
-  top:205px;
   height:40px;
   background:url('../img/translate.png') no-repeat 5px 10px #000;
 }
@@ -86,7 +85,6 @@
 }
 /************** NAVIGATION TAB ************/
 #admintabs .tab.navigate{
-  top:250px;
   background:url('../img/navigation.png') no-repeat 5px 10px #000;
 }
 #admintabs .tab.navigate:hover, #admintabs .tab.navigate.collapsible{
@@ -94,12 +92,27 @@
 }
 /*********************** ADMIN TOOLS ********************/
 #admintabs .tab.tools{
-  top:355px;
   background:url('../img/gear.png') no-repeat 5px 10px #000;
 }
 #admintabs .tab.tools:hover, #admintabs .tab.tools.collapsible{
   background:url('../img/gearhover.png') no-repeat 5px 10px #000;
 }
+/*********************** ADMIN CUSTOM MENU ********************/
+#admintabs .tab.menu{
+  background:url('../img/menu.png') no-repeat 5px 10px #000;
+}
+#admintabs .tab.menu:hover, #admintabs .tab.menu.collapsible{
+  background:url('../img/menuhover.png') no-repeat 5px 10px #000;
+}
+/*********************** ADMIN CUSTOM MENU ********************/
+#admintabs .tab.logout{
+  height:40px;
+  background:url('../img/exit.png') no-repeat 5px 8px #000;
+}
+#admintabs .tab.logout:hover, #admintabs .tab.logout.collapsible{
+  background:url('../img/exithover.png') no-repeat 5px 8px #000;
+}
+
 
 #admintabs .tab ul.child-tab{
   display:none;

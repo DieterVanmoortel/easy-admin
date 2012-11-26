@@ -27,6 +27,10 @@ function admintabs_permission() {
       'title' => t('Configure Admin Tabs'),
       'description' => t('Change settings for Admin tabs.'),
     ),
+    'use admintab functions' => array( // confiture the admin tabs
+      'title' => t('Use admintab functions'),
+      'description' => t('Use the administrator functions ( flush caches etc. ) tab.'),
+    ),
   );
 }
 

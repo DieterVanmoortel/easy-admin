@@ -42,11 +42,12 @@ if($value) {
         }
       }
       $result['status'] = TRUE;
+      drupal_set_message('Caches flushed');
       break;
     case 'rebuild_menu':
       drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
       db_delete('cache_menu')->execute();
-      $result['status'] = TRUE;
+      $result['status'] = TRUE;drupal_set_message('Menu rebuild');
       break;
     case 'rebuild_css_js':
       drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
@@ -54,13 +55,13 @@ if($value) {
       registry_rebuild();
       drupal_clear_css_cache();
       drupal_clear_js_cache();
-      $result['status'] = TRUE;
+      $result['status'] = TRUE;drupal_set_message('CSS & JS rebuild');
       break;
     case 'run_cron':
       drupal_bootstrap(DRUPAL_BOOTSTRAP_SESSION);
-      $result['status'] = drupal_cron_run();
-      break;
-    case 'translate':
+      if(drupal_cron_run()){
+        drupal_set_message('Cron ran succesfully');
+      }   
       break;
   }
 }

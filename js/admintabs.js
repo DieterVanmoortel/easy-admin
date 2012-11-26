@@ -31,7 +31,7 @@
             value: $(this).attr('href')
           },
           complete: function(data){
-            setTimeout(function(){$('#adminspinner').toggle();}, 1000);
+            location.reload(true);
           }
         });
       });
@@ -43,7 +43,7 @@
       $('ul.child-tab').hide();
       $('.parent-tab').removeClass('active');
       $(this).toggleClass('collapsible');
-      $('#admintabs .tab').not($(this)).not('.spinner').fadeToggle('fast');
+      $('#admintabs .tab').not($(this)).not('.spinner').toggle();
     });
     $('.grow-tabs').children().bind('click', function(event){
       event.stopPropagation()

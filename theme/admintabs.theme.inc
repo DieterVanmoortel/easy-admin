@@ -29,6 +29,6 @@ function theme_translationlink() {
   $output = '';
   $translationlink = l(t('Select text to translate'), '#', array('attributes' => array('process' => 'none', 'class' => array('translate-trigger'))));
   $output .= theme('item_list', array('items' => array($translationlink)));
-  $output .= '</input><span id="translate-options"></span>';
+  $output .= '<span id="translate-options"></span>';
   return $output;
 }
